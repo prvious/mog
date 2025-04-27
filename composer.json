@@ -1,0 +1,51 @@
+{
+    "name": "prvious/mog",
+    "description": "Component library for livewire based application",
+    "homepage": "https://mog.prvious.dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Clovis Muneza",
+            "email": "clovis@prvious.dev"
+        }
+    ],
+    "keywords": [
+        "laravel",
+        "livewire",
+        "component",
+        "ui"
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/console": "^11.0|^12.0",
+        "illuminate/support": "^11.0|^12.0",
+        "illuminate/view": "^11.0|^12.0",
+        "livewire/livewire": "^3.5.19",
+        "blade-ui-kit/blade-icons": "^1.8",
+        "secondnetwork/blade-tabler-icons": "^3.31",
+        "gehrisandro/tailwind-merge-laravel": "^1.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mog\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mog\\MogServiceProvider"
+            ],
+            "aliases": {
+                "Mog": "Mog\\Mog"
+            }
+        }
+    },
+    "require-dev": {
+        "laravel/pint": "^1.22"
+    },
+    "scripts": {
+        "lint": [
+            "@php vendor/bin/pint --ansi"
+        ]
+    }
+}
