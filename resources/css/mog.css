@@ -123,6 +123,6 @@
     }
 
     body[data-scroll-locked] {
-        @apply relative! mx-0 mt-0! overflow-hidden! overscroll-contain px-0 pt-0;
+        @apply relative! mt-0! overflow-hidden! mx-0 overscroll-contain px-0 pt-0;
     }
 }

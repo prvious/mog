@@ -8,7 +8,7 @@
 @php
     $variantClasses = match ($variant) {
         default => 'bg-background text-foreground',
-        'destructive' => 'border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive',
+        'destructive' => 'text-destructive dark:border-destructive [&>svg]:text-destructive',
     };
 @endphp
 
