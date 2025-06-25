@@ -31,10 +31,9 @@
     <div class="flex">
         <button
             {!! when($collapsible !== false, 'x-on:click="toggle()"') !!}
-            {{-- x-on:click="mog_open = !mog_open" --}}
             {{ $trigger->attributes->twMerge('flex flex-1 items-center justify-between py-4 text-left text-sm font-medium transition-[rotate] hover:underline group-data-[state=closed]:[&>svg]:rotate-180 [&>svg]:transition-[rotate] [&>svg]:duration-200') }}>
             {{ $trigger }}
-            {{ svg('tabler-chevron-up', 'text-muted-foreground h-4 w-4 shrink-0') }}
+            {{ svg('mog-chevron-up', 'text-muted-foreground h-4 w-4 shrink-0') }}
         </button>
     </div>
 

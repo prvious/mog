@@ -20,7 +20,7 @@
         @disabled($disabled)
         :data-state="value ? 'checked' : 'unchecked'"
         class="pointer-events-none flex items-center justify-center text-current">
-        @svg('tabler-check', 'h-4 w-4')
+        @svg('mog-check', 'h-4 w-4')
     </span>
 
     <input

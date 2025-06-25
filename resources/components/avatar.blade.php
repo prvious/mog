@@ -6,6 +6,7 @@
 <span
     x-cloak
     x-data="{ error: false }"
+    data-slot="avatar"
     {{ $attributes->twMerge('relative flex size-8 shrink-0 overflow-hidden rounded-full') }}>
     @if ($initials)
         <span
