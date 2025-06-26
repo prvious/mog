@@ -18,7 +18,7 @@
             const trigger = $refs.trigger.firstElementChild || $refs.trigger
             const rect = trigger.getBoundingClientRect()
             const align = '{{ $align }}'
-            const popover = $refs.popoverContent
+            const popover = $refs.content;
 
             // Get popover dimensions (estimate if not visible)
             const popoverWidth = popover?.offsetWidth || 288 // w-72 = 18rem = 288px
@@ -72,8 +72,7 @@
             const spaceAbove = rect.top
 
             if (spaceBelow < popoverHeight && spaceAbove > spaceBelow) {
-                topPos = rect.top
-                transform += (transform ? ' ' : '') + 'translateY(-100%)'
+                topPos = rect.top - popoverHeight
                 isFlipped = true
             } else {
                 topPos = rect.bottom
@@ -89,13 +88,15 @@
         },
     }"
     x-on:scroll.window="open && positionPopover()"
-    x-on:click.outside="open = false"
+    x-on:click.outside="!$refs.content?.contains($event.target) ? open = false : null"
     x-on:keydown.escape.window="open = false"
     x-on:click="
         positionPopover()
         open = ! open
     "
     x-bind:data-state="open ? 'open' : 'closed'"
+    :id="$id('popover')"
+    data-slot='popover'
     {{ $attributes->twMerge('relative group') }}>
     <div
         {{ $trigger->attributes }}
@@ -105,7 +106,7 @@
 
     <template x-teleport="body">
         <div
-            x-ref="popoverContent"
+            x-ref="content"
             x-show="open"
             x-transition:enter="transition duration-200 ease-out"
             x-transition:enter-start="scale-95 opacity-0"
@@ -116,7 +117,7 @@
             x-bind:style="`--top: ${position.top}px; --left: ${position.left}px; --transform: ${position.transform}; --margin-top: calc(var(--spacing) * ${position.isFlipped ? -4 : 4});`"
             {{
                 $content->attributes->twMerge(
-                    'top-(--top) left-(--left) transform-(--transform) fixed z-50 mt-(--margin-top)',
+                    'top-(--top) left-(--left) transform-(--transform) mt-(--margin-top) fixed z-50',
                     'bg-popover text-popover-foreground',
                     'rounded-md border p-4 shadow-md outline-none w-72',
                 )
