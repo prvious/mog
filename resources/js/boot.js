@@ -1,16 +1,16 @@
 export default function boot() {
-    const f = () => {
+    const setTheme = () => {
         const theme = localStorage.getItem('mog::theme') ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
         document.documentElement.classList.toggle('dark', theme === 'dark')
     }
 
     document.addEventListener('livewire:navigated', () => {
-        f()
+        setTheme()
     })
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        f()
+        setTheme()
     })
 
-    f()
+    setTheme()
 }
