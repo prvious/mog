@@ -40,6 +40,14 @@
         'top' => 'data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top inset-x-0 top-0 h-auto border-b',
         'bottom' => 'data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto border-t',
     };
+
+    if(isset($trigger)) {
+        $triggerAttributes = $trigger->attributes->merge(['x-on:click' => 'open()']);
+
+        $triggerAttributes->twMerge('h-max w-max');
+
+        $trigger->attributes = $triggerAttributes;
+    }
 @endphp
 
 <div
@@ -61,7 +69,7 @@
             ? document.body.setAttribute('data-scroll-locked', 'true')
             : document.body.removeAttribute('data-scroll-locked')
     ">
-    <div {{ $trigger->attributes->merge(['x-on:click' => 'open()']) }}>
+    <div {{ $trigger->attributes }}>
         {{ $trigger }}
     </div>
 
