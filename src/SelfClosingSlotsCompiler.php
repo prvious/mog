@@ -16,6 +16,8 @@ class SelfClosingSlotsCompiler extends ComponentTagCompiler
                 \s*
                 x[\-\:]slot
                 (?:\:(?<inlineName>\w+(?:-\w+)*))?
+                (?:\s+name=(?<name>(\"[^\"]+\"|\\\'[^\\\']+\\\'|[^\s>]+)))?
+                (?:\s+\:name=(?<boundName>(\"[^\"]+\"|\\\'[^\\\']+\\\'|[^\s>]+)))?
                 (?<attributes>
                     (?:
                         \s+
@@ -50,24 +52,39 @@ class SelfClosingSlotsCompiler extends ComponentTagCompiler
                     \s*
                 )
                 (?<![\/=\-])
-            \/>
+                (?<selfClosing>\s*\/\s*)?
+            >
         /x";
 
-        return preg_replace_callback($pattern, function ($matches) {
-            $name = $this->stripQuotes($matches['inlineName']);
-
-            $name = Str::replace(['[', ']'], '', $name);
+        $value = preg_replace_callback($pattern, function ($matches) {
+            $name = $this->stripQuotes($matches['inlineName'] ?: $matches['name'] ?: $matches['boundName']);
 
             if (Str::contains($name, '-') && ! empty($matches['inlineName'])) {
                 $name = Str::camel($name);
             }
 
+            // If the name was given as a simple string, we will wrap it in quotes as if it was bound for convenience...
+            if (! empty($matches['inlineName']) || ! empty($matches['name']) || ! empty($matches['boundName'])) {
+                $name = "'{$name}'";
+            }
+
             $this->boundAttributes = [];
 
-            $attributes = trim($matches['attributes']);
+            $attributes = $this->getAttributesFromAttributeString($matches['attributes']);
 
-            return "<x-slot:{$name} {$attributes}> </x-slot:{$name}>";
+            // If an inline name was provided and a name or bound name was *also* provided, we will assume the name should be an attribute...
+            if (! empty($matches['inlineName']) && (! empty($matches['name']) || ! empty($matches['boundName']))) {
+                $attributes = ! empty($matches['name'])
+                    ? array_merge($attributes, $this->getAttributesFromAttributeString('name='.$matches['name']))
+                    : array_merge($attributes, $this->getAttributesFromAttributeString(':name='.$matches['boundName']));
+            }
+
+            $maybeClose = isset($matches['selfClosing']) ? '@endslot' : '';
+
+            return " @slot({$name}, null, [".$this->attributesToString($attributes).']) '.$maybeClose;
         }, $value);
+
+        return $value;
     }
 
     #[Override]
