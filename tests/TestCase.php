@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
-    public function mockViewFactory($existsSucceeds = true)
+    public function mockViewFactory($existsSucceeds = true): void
     {
         $container = new Container;
         $container->instance(Factory::class, $factory = m::mock(Factory::class));

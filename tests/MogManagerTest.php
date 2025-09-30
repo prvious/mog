@@ -2,8 +2,8 @@
 
 use Mog\MogManager;
 
-describe('parseAspectRatio', function () {
-    it('parses string ratio formats correctly', function ($input, $expected) {
+describe('parseAspectRatio', function (): void {
+    it('parses string ratio formats correctly', function ($input, $expected): void {
         $ratio = app(MogManager::class)->parseAspectRatio($input);
 
         expect($ratio)->toBe($expected);
@@ -16,7 +16,7 @@ describe('parseAspectRatio', function () {
         ['3/2', 1.5],
     ]);
 
-    it('parses numeric string values correctly', function ($input, $expected) {
+    it('parses numeric string values correctly', function ($input, $expected): void {
         $ratio = app(MogManager::class)->parseAspectRatio($input);
 
         expect($ratio)->toBe($expected);
@@ -28,7 +28,7 @@ describe('parseAspectRatio', function () {
         ['0.5', 0.5],
     ]);
 
-    it('handles numeric values correctly', function ($input, $expected) {
+    it('handles numeric values correctly', function ($input, $expected): void {
         $ratio = app(MogManager::class)->parseAspectRatio($input);
 
         expect($ratio)->toBe($expected);
@@ -41,7 +41,7 @@ describe('parseAspectRatio', function () {
         [16 / 9, 16 / 9],
     ]);
 
-    it('returns fallback for invalid string formats', function ($input) {
+    it('returns fallback for invalid string formats', function ($input): void {
         $ratio = app(MogManager::class)->parseAspectRatio($input);
 
         expect($ratio)->toBe(1.0);
@@ -55,7 +55,7 @@ describe('parseAspectRatio', function () {
         ['16/9/2'], // too many parts
     ]);
 
-    it('handles edge cases', function ($input, $expected) {
+    it('handles edge cases', function ($input, $expected): void {
         $ratio = app(MogManager::class)->parseAspectRatio($input);
 
         expect($ratio)->toBe($expected);
@@ -66,7 +66,7 @@ describe('parseAspectRatio', function () {
         ['16 / 9', 16 / 9], // handles spaces in between
     ]);
 
-    it('handles zero and negative values appropriately', function ($input, $expected) {
+    it('handles zero and negative values appropriately', function ($input, $expected): void {
         $ratio = app(MogManager::class)->parseAspectRatio($input);
 
         expect($ratio)->toBe($expected);

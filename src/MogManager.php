@@ -17,14 +17,15 @@ class MogManager
     {
         if (is_string($ratio)) {
             $parts = explode('/', trim($ratio));
-
             if (count($parts) === 2 && is_numeric($parts[0]) && is_numeric($parts[1]) && (float) $parts[1] != 0) {
                 return floatval($parts[0]) / floatval($parts[1]);
-            } elseif (is_numeric($ratio)) {
-                return floatval($ratio);
-            } else {
-                return 1.0; // fallback to 1:1 if invalid
             }
+
+            if (is_numeric($ratio)) {
+                return floatval($ratio);
+            }
+
+            return 1.0; // fallback to 1:1 if invalid
         }
 
         return (float) $ratio;

@@ -56,7 +56,8 @@ class SelfClosingSlotsCompiler extends ComponentTagCompiler
             >
         /x";
 
-        $value = preg_replace_callback($pattern, function ($matches) {
+        /** @var string */
+        $value = preg_replace_callback($pattern, function (array $matches): string {
             $name = $this->stripQuotes($matches['inlineName'] ?: $matches['name'] ?: $matches['boundName']);
 
             if (Str::contains($name, '-') && ! empty($matches['inlineName'])) {
@@ -88,10 +89,8 @@ class SelfClosingSlotsCompiler extends ComponentTagCompiler
     }
 
     #[Override]
-    public function compile(string $value)
+    public function compile(string $value): string
     {
-        $value = $this->compileSlots($value);
-
-        return $value;
+        return $this->compileSlots($value);
     }
 }
