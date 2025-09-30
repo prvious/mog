@@ -19,13 +19,13 @@ class MogServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->callAfterResolving(BladeCompiler::class, function (BladeCompiler $blade) {
-            $blade->prepareStringsForCompilationUsing(fn ($value) => $this->app->make(SelfClosingSlotsCompiler::class)->compile($value));
+        $this->callAfterResolving(BladeCompiler::class, function (BladeCompiler $blade): void {
+            $blade->prepareStringsForCompilationUsing(fn (string $value) => $this->app->make(SelfClosingSlotsCompiler::class)->compile($value));
 
             $blade->anonymousComponentPath(__DIR__.'/../resources/components', 'mog');
         });
 
-        $this->callAfterResolving(BladeIconFactory::class, function (BladeIconFactory $factory) {
+        $this->callAfterResolving(BladeIconFactory::class, function (BladeIconFactory $factory): void {
             $factory->add('mog', [
                 'path' => __DIR__.'/../resources/svg',
                 'prefix' => 'mog',
@@ -33,7 +33,10 @@ class MogServiceProvider extends ServiceProvider
         });
     }
 
-    public function provides()
+    /**
+     * @return array<class-string>
+     */
+    public function provides(): array
     {
         return [MogManager::class];
     }
