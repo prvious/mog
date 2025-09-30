@@ -25,7 +25,7 @@
         'focus-visible:ring-ring inline-flex items-center justify-center gap-2',
         'rounded-md text-sm font-medium whitespace-nowrap transition-colors duration-75',
         'hover:cursor-pointer focus-visible:ring-1 focus-visible:outline-none',
-        'disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0'
+        'disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
     );
 
     $tag = $asLink ? 'a' : 'button';

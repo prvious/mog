@@ -41,7 +41,7 @@
         'bottom' => 'data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto border-t',
     };
 
-    if(isset($trigger)) {
+    if (isset($trigger)) {
         $triggerAttributes = $trigger->attributes->merge(['x-on:click' => 'open()']);
 
         $triggerAttributes->twMerge('h-max w-max');

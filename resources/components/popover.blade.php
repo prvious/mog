@@ -18,7 +18,7 @@
             const trigger = $refs.trigger.firstElementChild || $refs.trigger
             const rect = trigger.getBoundingClientRect()
             const align = '{{ $align }}'
-            const popover = $refs.content;
+            const popover = $refs.content
 
             // Get popover dimensions (estimate if not visible)
             const popoverWidth = popover?.offsetWidth || 288 // w-72 = 18rem = 288px
@@ -88,7 +88,7 @@
         },
     }"
     x-on:scroll.window="open && positionPopover()"
-    x-on:click.outside="!$refs.content?.contains($event.target) ? open = false : null"
+    x-on:click.outside="! $refs.content?.contains($event.target) ? (open = false) : null"
     x-on:keydown.escape.window="open = false"
     x-on:click="
         positionPopover()
@@ -96,7 +96,7 @@
     "
     x-bind:data-state="open ? 'open' : 'closed'"
     :id="$id('popover')"
-    data-slot='popover'
+    data-slot="popover"
     {{ $attributes->twMerge('relative group') }}>
     <div
         {{ $trigger->attributes }}
