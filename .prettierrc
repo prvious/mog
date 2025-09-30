@@ -1,0 +1,20 @@
+{
+    "semi": false,
+    "tabWidth": 4,
+    "useTabs": false,
+    "printWidth": 160,
+    "singleQuote": true,
+    "bracketSameLine": true,
+    "singleAttributePerLine": true,
+    "htmlWhitespaceSensitivity": "css",
+    "tailwindFunctions": ["clsx", "cn", "twMerge"],
+    "plugins": ["prettier-plugin-blade", "prettier-plugin-tailwindcss"],
+    "overrides": [
+        {
+            "files": ["*.blade.php"],
+            "options": {
+                "parser": "blade"
+            }
+        }
+    ]
+}
