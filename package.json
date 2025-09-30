@@ -3,13 +3,12 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "format": "prettier --write resources",
-        "format:check": "prettier --check resources"
+        "format": "prettier --write resources .github/workflows",
+        "format:check": "prettier --check resources .github/workflows"
     },
     "devDependencies": {
         "prettier": "^3.0.0",
         "prettier-plugin-blade": "^2.0.0",
-        "prettier-plugin-tailwindcss": "^0.5.0",
-        "tailwindcss": "^4.1.13"
+        "prettier-plugin-tailwindcss": "^0.5.0"
     }
 }
