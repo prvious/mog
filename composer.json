@@ -56,7 +56,7 @@
             "@php vendor/bin/pint --test"
         ],
         "test": [
-            "vendor/bin/pest --parallel --ci || vendor/bin/pest --ci"
+            "vendor/bin/pest --ci"
         ]
     },
     "config": {
