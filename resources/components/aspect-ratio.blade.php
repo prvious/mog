@@ -2,7 +2,12 @@
     'ratio' => 1 / 1,
 ])
 
+@php
+    $ratio = app('mog')->parseAspectRatio($ratio);
+@endphp
+
 {{-- paddingBottom: `${100 / ratio}%` --}}
+
 <div
     {{ $attributes->twMerge('relative w-full') }}
     :style="{'padding-bottom': `${100 / {{ (float) $ratio }} }%`}">
