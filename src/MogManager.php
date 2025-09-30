@@ -2,5 +2,4 @@
 
 namespace Mog;
 
-
-class MogManager{}
+class MogManager {}

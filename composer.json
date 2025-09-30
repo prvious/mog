@@ -51,6 +51,12 @@
     "scripts": {
         "lint": [
             "@php vendor/bin/pint --ansi"
+        ],
+        "lint:check": [
+            "@php vendor/bin/pint --test"
+        ],
+        "test": [
+            "vendor/bin/pest --ci"
         ]
     },
     "config": {
