@@ -105,6 +105,46 @@ window.addEventListener('alpine:init', () => {
         },
     })
 
+    Alpine.store('dialog', {
+        visible: false,
+        stack: [],
+
+        add(componentId) {
+            if (!this.stack.includes(componentId)) {
+                this.stack.push(componentId)
+            }
+            this.visible = true
+        },
+
+        has(componentId) {
+            return this.stack.includes(componentId)
+        },
+
+        // Called by a dialog component when it wants to close
+        remove(componentId) {
+            this.stack = this.stack.filter((id) => id !== componentId)
+
+            if (this.stack.length === 0) {
+                this.visible = false
+            }
+        },
+
+        closeTop() {
+            if (this.stack.length > 0) {
+                const topmostComponentId = this.stack[this.stack.length - 1]
+                this.remove(topmostComponentId)
+            }
+        },
+
+        isTop(componentId) {
+            return this.stack.length > 0 && this.stack[this.stack.length - 1] === componentId
+        },
+
+        top() {
+            return this.stack.length > 0 ? this.stack[this.stack.length - 1] : null
+        },
+    })
+
     // Global toast helper
     window.toast = Alpine.store('toasts')
 
