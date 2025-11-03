@@ -4,7 +4,7 @@
 ])
 
 @php
-    if($attributes->has('wire:model') && $autoWireInvalid) {
+    if ($attributes->has('wire:model') && $autoWireInvalid) {
         $invalid = $errors->has($attributes->get('wire:model'));
     }
 @endphp

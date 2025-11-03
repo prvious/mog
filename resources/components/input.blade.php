@@ -6,10 +6,10 @@
 ])
 
 @php
-    if($attributes->has('wire:model') && $autoWireInvalid) {
+    if ($attributes->has('wire:model') && $autoWireInvalid) {
         $invalid = $errors->has($attributes->get('wire:model'));
     }
-    
+
     $size = match ($size) {
         'xs' => 'px-2 py-0.5',
         'sm' => 'px-2.5 py-1',
@@ -28,6 +28,6 @@
             'read-only:pointer-events-none read-only:cursor-not-allowed read-only:opacity-50',
             'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
             'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
-            $size
+            $size,
         )
     }} />
