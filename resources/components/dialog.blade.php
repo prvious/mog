@@ -94,7 +94,9 @@
                 <div {{ $title->attributes->twMerge('text-lg font-semibold') }}>
                     {{ $title }}
                 </div>
-                <div {{ $content->attributes->twMerge('text-sm px-3') }}>
+                <div
+                    {{ $content->attributes->twMerge('text-sm px-3') }}
+                    x-trap="dialog">
                     {{ $content }}
                 </div>
             </div>
