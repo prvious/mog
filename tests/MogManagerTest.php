@@ -78,3 +78,30 @@ describe('parseAspectRatio', function (): void {
         ['-16/9', -16 / 9],
     ]);
 });
+
+describe('script', function (): void {
+    it('returns a script tag with correct attributes', function (): void {
+        $script = app(MogManager::class)->script();
+
+        expect($script)->toContain('<script');
+        expect($script)->toContain('src="/mog/mog.js?id=');
+        expect($script)->toContain('data-navigate-once');
+        expect($script)->toContain('defer');
+        expect($script)->toContain('</script>');
+    });
+
+    it('includes version from manifest.json', function (): void {
+        $script = app(MogManager::class)->script();
+
+        // The manifest.json should have a version/hash
+        expect($script)->toMatch('/src="\/mog\/mog\.js\?id=[^"]+"/');
+    });
+
+    it('generates valid HTML script tag', function (): void {
+        $script = app(MogManager::class)->script();
+
+        // Should be a complete script tag with all required parts
+        expect($script)->toStartWith('<script');
+        expect($script)->toEndWith('</script>');
+    });
+});
