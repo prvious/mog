@@ -93,6 +93,14 @@ class MogManager
         Route::get('mog/mog.js', fn () => Utils::pretendResponseIsFile(__DIR__.'/../dist/'.$file));
     }
 
+    /**
+     * Generate a script tag for the Mog JavaScript file.
+     *
+     * Returns an HTML script tag that loads the Mog JavaScript file
+     * with cache-busting via version query string from manifest.json.
+     *
+     * @return string The complete script tag with attributes
+     */
     public function script(): string
     {
         $manifest = json_decode(file_get_contents(__DIR__.'/../dist/manifest.json'), true);
