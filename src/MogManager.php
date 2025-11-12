@@ -92,4 +92,12 @@ class MogManager
 
         Route::get('mog/mog.js', fn () => Utils::pretendResponseIsFile(__DIR__.'/../dist/'.$file));
     }
+
+    public function script(): string
+    {
+        $manifest = json_decode(file_get_contents(__DIR__.'/../dist/manifest.json'), true);
+        $version = $manifest['/mog.js'] ?? '';
+
+        return '<script src="/mog/mog.js?id='.$version.'" data-navigate-once defer></script>';
+    }
 }
