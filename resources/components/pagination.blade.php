@@ -6,34 +6,29 @@
     role="navigation"
     aria-label="pagination"
     data-slot="pagination"
-    class="mx-auto flex w-full justify-center">
+    {{ $attributes->twMerge('mx-auto flex w-full justify-center') }}>
     <ul
         data-slot="pagination-content"
         class="flex flex-row items-center gap-1">
         <li data-active="false">
-            @php
-                $previousPage = match (get_class($paginator)) {
-                    Illuminate\Pagination\LengthAwarePaginator::class => "previousPage('{$paginator->getPageName()}')",
-                    Illuminate\Pagination\CursorPaginator::class => "setPage('{$paginator->previousCursor()->encode()}','{$paginator->getCursorName()}')",
-                    Illuminate\Pagination\Paginator::class => "previousPage('{$paginator->getPageName()}')",
-                };
-
-                $nextPage = match (get_class($paginator)) {
-                    Illuminate\Pagination\LengthAwarePaginator::class => "nextPage('{$paginator->getPageName()}')",
-                    Illuminate\Pagination\CursorPaginator::class => "setPage('{$paginator->nextCursor()->encode()}','{$paginator->getCursorName()}')",
-                    Illuminate\Pagination\Paginator::class => "nextPage('{$paginator->getPageName()}')",
-                };
-            @endphp
-
             @if ($paginator->onFirstPage())
                 <x-mog::button
                     class="gap-1 px-2.5 sm:pr-2.5"
                     aria-label="Go to previous page"
-                    variant="ghost">
+                    variant="ghost"
+                    disabled>
                     @svg('mog-chevron-left')
                     <span class="hidden sm:block">Prvious</span>
                 </x-mog::button>
             @else
+                @php
+                    $previousPage = match (get_class($paginator)) {
+                        Illuminate\Pagination\LengthAwarePaginator::class => "previousPage('{$paginator->getPageName()}')",
+                        Illuminate\Pagination\CursorPaginator::class => "setPage('{$paginator->previousCursor()?->encode()}','{$paginator->getCursorName()}')",
+                        Illuminate\Pagination\Paginator::class => "previousPage('{$paginator->getPageName()}')",
+                    };
+                @endphp
+
                 <x-mog::button
                     class="gap-1 px-2.5 sm:pr-2.5"
                     wire:click="{{ $previousPage }}"
@@ -89,11 +84,20 @@
                 <x-mog::button
                     class="gap-1 px-2.5 sm:pr-2.5"
                     aria-label="Go to next page"
-                    variant="ghost">
+                    variant="ghost"
+                    disabled>
                     <span class="hidden sm:block">Next</span>
                     @svg('mog-chevron-right')
                 </x-mog::button>
             @else
+                @php
+                    $nextPage = match (get_class($paginator)) {
+                        Illuminate\Pagination\LengthAwarePaginator::class => "nextPage('{$paginator->getPageName()}')",
+                        Illuminate\Pagination\CursorPaginator::class => "setPage('{$paginator->nextCursor()?->encode()}','{$paginator->getCursorName()}')",
+                        Illuminate\Pagination\Paginator::class => "nextPage('{$paginator->getPageName()}')",
+                    };
+                @endphp
+
                 <x-mog::button
                     class="gap-1 px-2.5 sm:pr-2.5"
                     wire:click="{{ $nextPage }}"

@@ -4,9 +4,13 @@
     "private": true,
     "scripts": {
         "format": "prettier --write resources .github/workflows",
-        "format:check": "prettier --check resources .github/workflows"
+        "format:check": "prettier --check resources .github/workflows",
+        "build": "node ./scripts/build.js",
+        "watch": "node ./scripts/build.js --watch"
     },
     "devDependencies": {
+        "brotli-size": "^4.0.0",
+        "esbuild": "^0.27.0",
         "prettier": "^3.0.0",
         "prettier-plugin-blade": "^2.0.0",
         "prettier-plugin-tailwindcss": "^0.5.0"
