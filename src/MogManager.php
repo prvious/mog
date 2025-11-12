@@ -2,6 +2,10 @@
 
 namespace Mog;
 
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
+use Livewire\Drawer\Utils;
+
 class MogManager
 {
     /**
@@ -29,5 +33,81 @@ class MogManager
         }
 
         return (float) $ratio;
+    }
+
+    public function registerBladeDirectives(): void
+    {
+        Blade::directive('mog', function (string $expression) {
+            return <<<'HTML'
+                <style>
+                    :root.dark {
+                        color-scheme: dark;
+                    }
+                </style>
+
+                <script>
+                    window.Mog = {
+                        get theme() {
+                            return window.localStorage.getItem('mog::paint') || 'system'
+                        },
+
+                        get coat() {
+                            return this.theme;
+                        },
+
+                        paint(theme) {
+                            let applyDark = () => document.documentElement.classList.add('dark');
+                            let applyLight = () => document.documentElement.classList.remove('dark');
+                            let setTheme = (theme) => window.localStorage.setItem('mog::paint', theme);
+
+                            if (theme === 'system') {
+                                let scheme = window.matchMedia('(prefers-color-scheme: dark)');
+                                window.localStorage.removeItem('mog::paint');
+                                scheme.matches ? applyDark() : applyLight();
+                            } else if (theme === 'dark') {
+                                setTheme('dark');
+                                applyDark();
+                            } else if (theme === 'light') {
+                                setTheme('light');
+                                applyLight();
+                            }
+                        }
+                    }
+
+                    window.Mog.paint(window.localStorage.getItem('mog::paint') || 'system')
+                </script>
+
+                <?php app('livewire')->forceAssetInjection(); ?>
+
+                {!! app('mog')->script() !!}
+            HTML;
+        });
+    }
+
+    public function bootBladeDirectives(): void
+    {
+        if (config('app.debug')) {
+            $file = 'mog.js';
+        } else {
+            $file = 'mog.min.js';
+        }
+
+        Route::get('mog/mog.js', fn () => Utils::pretendResponseIsFile(__DIR__.'/../dist/'.$file));
+    }
+
+    /**
+     * Generate a script tag for the Mog JavaScript file.
+     *
+     * Returns an HTML script tag that loads the Mog JavaScript file
+     * with cache-busting via version query string from manifest.json.
+     *
+     * @return string The complete script tag with attributes
+     */
+    public function script(): string
+    {
+        $manifest = json_decode(file_get_contents(__DIR__.'/../dist/manifest.json'), true);
+        $version = $manifest['/mog.js'] ?? '';
+
+        return '<script src="/mog/mog.js?id='.$version.'" data-navigate-once defer></script>';
     }
 }

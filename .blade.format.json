@@ -1,0 +1,15 @@
+{
+    "echoStyle": "block",
+    "phpOptions": {
+        "singleQuotes": false,
+        "phpVersion": "8.2"
+    },
+    "formatDirectivePhpParameters": true,
+    "formatDirectiveJsonParameters": true,
+    "formatInsideEcho": true,
+    "spacesAfterDirective": 0,
+    "spacesAfterControlDirective": 1,
+    "ignoreDirectives": [],
+    "customIfs": [],
+    "useLaravelPint": true
+}

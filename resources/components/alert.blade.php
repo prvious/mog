@@ -2,7 +2,7 @@
     'variant' => 'default',
     'title',
     'icon',
-    'content'
+    'content',
 ])
 
 @php
