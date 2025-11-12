@@ -3,6 +3,7 @@
 namespace Mog;
 
 use BladeUI\Icons\Factory as BladeIconFactory;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 
@@ -19,10 +20,12 @@ class MogServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->callAfterResolving(BladeCompiler::class, function (BladeCompiler $blade): void {
+        $this->callAfterResolving(BladeCompiler::class, function (BladeCompiler $blade, Application $app): void {
             $blade->prepareStringsForCompilationUsing(fn (string $value) => $this->app->make(SelfClosingSlotsCompiler::class)->compile($value));
 
             $blade->anonymousComponentPath(__DIR__.'/../resources/components', 'mog');
+
+            $app->make(MogManager::class)->registerBladeDirectives();
         });
 
         $this->callAfterResolving(BladeIconFactory::class, function (BladeIconFactory $factory): void {
@@ -31,6 +34,8 @@ class MogServiceProvider extends ServiceProvider
                 'prefix' => 'mog',
             ]);
         });
+
+        app(MogManager::class)->bootBladeDirectives();
     }
 
     /**

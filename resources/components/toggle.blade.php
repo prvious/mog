@@ -6,11 +6,14 @@
 ])
 
 @php
-    $defaultClasses = 'hover:bg-muted hover:text-muted-foreground focus-visible:ring-ring data-[state=on]:bg-accent data-[state=on]:text-accent-foreground inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors hover:cursor-pointer focus-visible:ring-1 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0';
+    $defaultClasses = 'hover:bg-muted hover:text-muted-foreground focus-visible:ring-ring data-[state=on]:bg-accent data-[state=on]:text-accent-foreground inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors hover:cursor-pointer focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0';
 
     $variantClasses = match ($variant) {
-        'outline' => 'border-input hover:bg-accent hover:text-accent-foreground border bg-transparent shadow-sm',
-        default => 'bg-transparent',
+        'outline' => 'border-input bg-background hover:bg-accent hover:text-accent-foreground border shadow-sm',
+        'destructive' => 'bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm',
+        'secondary' => 'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm',
+        'ghost' => 'hover:bg-accent hover:text-accent-foreground',
+        default => 'bg-background text-primary-foreground hover:bg-primary/90 shadow',
     };
 
     $sizeClasses = match ($size) {
