@@ -78,6 +78,8 @@ class MogManager
                 </script>
 
                 <?php app('livewire')->forceAssetInjection(); ?>
+
+                {!! app('mog')->script() !!}
             HTML;
         });
     }
