@@ -84,7 +84,7 @@ class MogManager
         });
     }
 
-    public function bootBladeDirectives(): void
+    public function bootScriptRoute(): void
     {
         if (config('app.debug')) {
             $file = 'mog.js';

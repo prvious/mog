@@ -35,7 +35,7 @@ class MogServiceProvider extends ServiceProvider
             ]);
         });
 
-        app(MogManager::class)->bootBladeDirectives();
+        app(MogManager::class)->bootScriptRoute();
     }
 
     /**
