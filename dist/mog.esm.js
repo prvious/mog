@@ -1,6 +1,5 @@
 // resources/js/mog.js
 window.addEventListener("alpine:init", () => {
-  Alpine.magic("mog", (el, { Alpine: Alpine2 }) => window.Mog);
   Alpine.store("toasts", {
     toasts: [],
     counter: 0,
@@ -77,39 +76,71 @@ window.addEventListener("alpine:init", () => {
       return promise;
     }
   });
-  Alpine.store("dialog", {
-    visible: false,
-    stack: [],
-    add(componentId) {
-      if (!this.stack.includes(componentId)) {
-        this.stack.push(componentId);
-      }
-      this.visible = true;
+  window.Mog = {
+    get theme() {
+      return window.localStorage.getItem("mog::paint") || "system";
     },
-    has(componentId) {
-      return this.stack.includes(componentId);
+    get coat() {
+      return this.theme;
     },
-    // Called by a dialog component when it wants to close
-    remove(componentId) {
-      this.stack = this.stack.filter((id) => id !== componentId);
-      if (this.stack.length === 0) {
-        this.visible = false;
-      }
-    },
-    closeTop() {
-      if (this.stack.length > 0) {
-        const topmostComponentId = this.stack[this.stack.length - 1];
-        this.remove(topmostComponentId);
+    paint(theme) {
+      let applyDark = () => document.documentElement.classList.add("dark");
+      let applyLight = () => document.documentElement.classList.remove("dark");
+      let setTheme = (theme2) => window.localStorage.setItem("mog::paint", theme2);
+      if (theme === "system") {
+        let scheme = window.matchMedia("(prefers-color-scheme: dark)");
+        window.localStorage.removeItem("mog::paint");
+        scheme.matches ? applyDark() : applyLight();
+      } else if (theme === "dark") {
+        setTheme("dark");
+        applyDark();
+      } else if (theme === "light") {
+        setTheme("light");
+        applyLight();
       }
     },
-    isTop(componentId) {
-      return this.stack.length > 0 && this.stack[this.stack.length - 1] === componentId;
+    dialogs: Alpine.reactive([]),
+    toasts: Alpine.reactive([]),
+    dialog: {
+      open: (id) => {
+        if (!window.Mog.dialogs.includes(id)) window.Mog.dialogs.push(id);
+        document.dispatchEvent(new CustomEvent("mog::dialog-open", { detail: { id } }));
+        document.dispatchEvent(new CustomEvent("mog::overlay-open", { detail: { dialog: id } }));
+      },
+      close: (id) => {
+        if (window.Mog.dialogs.includes(id)) {
+          window.Mog.dialogs = window.Mog.dialogs.filter((d) => d !== id);
+        }
+        document.dispatchEvent(new CustomEvent("mog::dialog-close", { detail: { id } }));
+        document.dispatchEvent(new CustomEvent("mog::overlay-close", { detail: { dialog: id } }));
+      },
+      closeAll: () => {
+        let toClose = window.Mog.dialogs;
+        toClose.forEach((m) => window.Mog.dialog.close(m));
+      },
+      empty: () => window.Mog.dialogs.length === 0
     },
-    top() {
-      return this.stack.length > 0 ? this.stack[this.stack.length - 1] : null;
+    toast: {
+      /**
+       *
+       * types:
+       *        'default' => no icon, just text
+       *        'success' => has a success icon (tick)
+       *        'info' => has an info icon (i)
+       *        'warning' => has a warning icon (triangle with ! in the middle)
+       *        'error' => has a error icon (octagon with x in the middle)
+       *        'promise' => shows loading state with spinning loading icon until resolved/rejected, then shows success/error icon accordingly
+       *
+       * action: idk what this will look like yet, but its a button that should perform an action once clicked
+       * duration: time in ms before auto dismiss, 0 = persistent
+       * dismissable: boolean, whether the toast can be dismissed by the user. if yes, show a close button at the top right of the toast
+       */
+      create: ({ type, title, description, action, duration, dismissable }) => {
+        window.Mog.toasts.push({ type, title, description, action, duration, dismissable });
+        document.dispatchEvent(new CustomEvent("mog::toast-create", { detail: { type, title, description, action, duration, dismissable } }));
+      }
     }
-  });
-  window.toast = Alpine.store("toasts");
-  Alpine.magic("toast", () => Alpine.store("toasts"));
+  };
+  Alpine.magic("mog", () => window.Mog);
 });
 //# sourceMappingURL=mog.esm.js.map

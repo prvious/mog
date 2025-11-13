@@ -1,7 +1,7 @@
 @use(Illuminate\View\ComponentSlot)
 
 @props([
-    'trigger',
+    'trigger' => app(ComponentSlot::class),
     'header' => app(ComponentSlot::class),
     'title',
     'content',
@@ -44,6 +44,8 @@
         'fit' => 'max-w-fit',
         default => 'max-w-lg',
     };
+
+    $x_model = $attributes->get('x-model') ?? null;
 @endphp
 
 <div
@@ -51,32 +53,36 @@
     x-data="{
         id: $id('dialog'),
         dialog: @js($open),
-        open() {
-            this.dialog = true
-        },
-        close() {
-            this.dialog = false
-        },
-        toggle() {
-            this.dialog = ! this.dialog
-        },
     }"
-    x-effect="
-        dialog
-            ? document.body.setAttribute('data-scroll-locked', 'true')
-            : document.body.removeAttribute('data-scroll-locked')
+    x-init="
+        $watch('dialog', (value) => {
+            console.log('Dialog', id, 'changed to', value)
 
-        if (dialog) $store.dialog.add(id)
-        else $store.dialog.remove(id)
+            if (value) {
+                $mog.dialog.open(id)
+            } else {
+                $mog.dialog.close(id)
+            }
+        })
     "
-    x-on:close-dialog.window="
-        if ($store.dialog.isTop(id)) close()
-    ">
-    <div {{ $trigger->attributes->merge(['x-on:click' => 'open()']) }}>
+    x-modelable="dialog"
+    x-on:mog::dialog-open.document="
+        if ($event.detail.id === id) {
+            console.log('Opening dialog', id)
+            dialog = true
+        }
+    "
+    x-on:mog::dialog-close.document="
+        if ($event.detail.id === id) {
+            dialog = false
+        }
+    "
+    @if(filled($x_model)) x-model="{{ $x_model }}" @endif>
+    <div {{ $trigger->attributes->merge(['x-on:click' => '$mog.dialog.open(id)']) }}>
         {{ $trigger }}
     </div>
 
-    <template x-teleport="body">
+    <template x-teleport="#mog-dialog-container">
         <div
             x-show="dialog"
             x-transition:enter="transition-all ease-out"
@@ -85,11 +91,7 @@
             x-transition:leave="transition-all ease-in"
             x-transition:leave-start="translate-x-[-50%] translate-y-[-50%] scale-100 opacity-100"
             x-transition:leave-end="translate-x-[-50%] translate-y-[-60%] scale-95 opacity-0"
-            x-bind:class="{
-                'z-49': ! $store.dialog.isTop(id),
-                'z-51': $store.dialog.isTop(id),
-            }"
-            {{ $attributes->twMerge('fixed left-[50%] top-[45%] flex flex-col w-full translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-4 sm:rounded-lg ring-4 ring-neutral-800/55', $size) }}>
+            {{ $attributes->twMerge('fixed left-[50%] top-[45%] flex flex-col w-full translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-4 sm:rounded-lg ring-4 ring-ring/15 border border-border dark:ring-ring/25', $size) }}>
             <div {{ $header->attributes->twMerge('flex flex-col gap-2 text-center sm:text-left') }}>
                 <div {{ $title->attributes->twMerge('text-lg font-semibold') }}>
                     {{ $title }}
