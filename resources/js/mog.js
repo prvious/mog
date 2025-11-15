@@ -1,3 +1,20 @@
+/**
+ *
+ * @param {HTMLElement} element
+ * @returns
+ */
+function render(element) {
+    const html = (strings) => strings.raw[0]
+
+    let view = html`
+        <div class="bg-popover text-popover-foreground border-border rounded-lg border">
+            <p>lorem ipsum</p>
+        </div>
+    `
+
+    element.insertAdjacentHTML('afterbegin', view)
+}
+
 window.addEventListener('alpine:init', () => {
     Alpine.store('toasts', {
         toasts: [],
@@ -163,10 +180,40 @@ window.addEventListener('alpine:init', () => {
              * duration: time in ms before auto dismiss, 0 = persistent
              * dismissable: boolean, whether the toast can be dismissed by the user. if yes, show a close button at the top right of the toast
              */
-            create: ({ type, title, description, action, duration, dismissable }) => {
-                window.Mog.toasts.push({ type, title, description, action, duration, dismissable })
+            create: ({ type = 'default', title, description, action, duration = 5000, dismissable = true }) => {
+                let createdAt = Date.now()
 
-                document.dispatchEvent(new CustomEvent('mog::toast-create', { detail: { type, title, description, action, duration, dismissable } }))
+                const pendingToast = { type, title, description, action, duration, dismissable, createdAt }
+
+                pendingToast.render = render.bind(pendingToast)
+
+                const toast = Object.freeze(pendingToast)
+
+                window.Mog.toasts.push(toast)
+
+                document.dispatchEvent(new CustomEvent('mog::toast-create', { detail: { toast } }))
+            },
+
+            info: ({ title, description = null, duration = 4000 }) => {
+                return window.Mog.toast.create({ type: 'info', title, description, duration })
+            },
+
+            warning: ({ title, description = null, duration = 4000 }) => {
+                return window.Mog.toast.create({ type: 'warning', title, description, duration })
+            },
+
+            error: ({ title, description = null, duration = 6000 }) => {
+                return window.Mog.toast.create({ type: 'error', title, description, duration })
+            },
+
+            dismiss: (toast) => {
+                window.Mog.toasts = window.Mog.toasts.filter((t) => t !== toast)
+
+                document.dispatchEvent(new CustomEvent('mog::toast-dismiss', { detail: { toast } }))
+            },
+
+            dismissAll: () => {
+                window.Mog.toasts.forEach((toast) => window.Mog.toast.dismiss(toast))
             },
         },
     }

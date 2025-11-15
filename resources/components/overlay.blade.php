@@ -33,3 +33,7 @@
 <div
     id="mog-dialog-container"
     class="contents"></div>
+
+@persist('mog::toast')
+    <x-mog::toast />
+@endpersist
