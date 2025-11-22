@@ -1,82 +1,14 @@
 // resources/js/mog.js
 window.addEventListener("alpine:init", () => {
-  Alpine.store("toasts", {
-    toasts: [],
-    counter: 0,
-    add(type = "default", title, description = null, duration = 4e3, action = null) {
-      const toast = {
-        id: ++this.counter,
-        type,
-        title,
-        description,
-        duration,
-        action,
-        createdAt: Date.now(),
-        dismissed: false
-      };
-      this.toasts.unshift(toast);
-      if (duration > 0) {
-        setTimeout(() => {
-          this.dismiss(toast.id);
-        }, duration);
-      }
-      return toast.id;
-    },
-    dismiss(id) {
-      const index = this.toasts.findIndex((toast) => toast.id === id);
-      if (index > -1) {
-        this.toasts[index].dismissed = true;
-        setTimeout(() => {
-          this.toasts.splice(index, 1);
-        }, 150);
-      }
-    },
-    dismissAll() {
-      this.toasts.forEach((toast) => toast.dismissed = true);
-      setTimeout(() => {
-        this.toasts = [];
-      }, 150);
-    },
-    success(title, description = null, duration = 4e3) {
-      return this.add("success", title, description, duration);
-    },
-    error(title, description = null, duration = 6e3) {
-      return this.add("error", title, description, duration);
-    },
-    warning(title, description = null, duration = 5e3) {
-      return this.add("warning", title, description, duration);
-    },
-    info(title, description = null, duration = 4e3) {
-      return this.add("info", title, description, duration);
-    },
-    loading(title, description = null) {
-      return this.add("loading", title, description, 0);
-    },
-    promise(promise, options = {}) {
-      const loadingId = this.loading(options.loading?.title || "Loading...", options.loading?.description);
-      promise.then((result) => {
-        this.dismiss(loadingId);
-        if (options.success) {
-          this.success(
-            typeof options.success === "function" ? options.success(result) : options.success.title || options.success,
-            typeof options.success === "object" ? options.success.description : null
-          );
-        }
-        return result;
-      }).catch((error) => {
-        this.dismiss(loadingId);
-        if (options.error) {
-          this.error(
-            typeof options.error === "function" ? options.error(error) : options.error.title || options.error,
-            typeof options.error === "object" ? options.error.description : null
-          );
-        }
-        throw error;
-      });
-      return promise;
-    }
-  });
   window.Mog = {
+    get scheme() {
+      let theme = this.theme;
+      if (theme === "system") {
+        let scheme = window.matchMedia("(prefers-color-scheme: dark)");
+        return scheme.matches ? "dark" : "light";
+      }
+      return theme;
+    },
     get theme() {
       return window.localStorage.getItem("mog::paint") || "system";
     },
@@ -101,6 +33,11 @@ window.addEventListener("alpine:init", () => {
     },
     dialogs: Alpine.reactive([]),
     toasts: Alpine.reactive([]),
+    dismissedToasts: Alpine.reactive(/* @__PURE__ */ new Set()),
+    getActiveToasts: () => {
+      return window.Mog.toasts.filter((toast) => !window.Mog.dismissedToasts.has(toast.id));
+    },
+    toastsCounter: 0,
     dialog: {
       open: (id) => {
         if (!window.Mog.dialogs.includes(id)) window.Mog.dialogs.push(id);
@@ -135,9 +72,54 @@ window.addEventListener("alpine:init", () => {
        * duration: time in ms before auto dismiss, 0 = persistent
        * dismissable: boolean, whether the toast can be dismissed by the user. if yes, show a close button at the top right of the toast
        */
-      create: ({ type, title, description, action, duration, dismissable }) => {
-        window.Mog.toasts.push({ type, title, description, action, duration, dismissable });
-        document.dispatchEvent(new CustomEvent("mog::toast-create", { detail: { type, title, description, action, duration, dismissable } }));
+      create: (title, options = {}) => {
+        let description = "";
+        let type = "default";
+        let position = "bottom-right";
+        let html = "";
+        if (typeof options.description != "undefined") description = options.description;
+        if (typeof options.type != "undefined") type = options.type;
+        if (typeof options.position != "undefined") position = options.position;
+        if (typeof options.html != "undefined") html = options.html;
+        const dismissible = options.dismissible === void 0 ? true : options.dismissible;
+        const id = typeof options.id === "number" || options.id && options.id?.length > 0 ? options.id : window.Mog.toastsCounter++;
+        const toast = { id, type, title, description, position, html, dismissible };
+        const alreadyExists = window.Mog.toasts.find((toast2) => {
+          return toast2.id === id;
+        });
+        if (window.Mog.dismissedToasts.has(id)) {
+          window.Mog.dismissedToasts.delete(id);
+        }
+        if (alreadyExists) {
+          const index = window.Mog.toasts.findIndex((toast2) => toast2.id === id);
+          window.Mog.toasts[index] = {
+            ...alreadyExists,
+            ...options,
+            id,
+            dismissible,
+            title
+          };
+        } else {
+          window.Mog.toasts.unshift(toast);
+        }
+        window.dispatchEvent(new CustomEvent("mog::toast-show", { detail: toast }));
+        return id;
+      },
+      info: (title, data) => {
+        return window.Mog.toast.create(title, { type: "info", ...data });
+      },
+      warning: (title, data) => {
+        return window.Mog.toast.create(title, { type: "warning", ...data });
+      },
+      error: (title, data) => {
+        return window.Mog.toast.create(title, { type: "error", ...data });
+      },
+      dismiss: (toast) => {
+        window.Mog.toasts = Alpine.reactive(window.Mog.toasts.filter((t) => t !== toast));
+        document.dispatchEvent(new CustomEvent("mog::toast-dismiss", { detail: { toast } }));
+      },
+      dismissAll: () => {
+        window.Mog.toasts.forEach((toast) => window.Mog.toast.dismiss(toast));
       }
     }
   };

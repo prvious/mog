@@ -1,7 +1,3 @@
-window.sleep = async (ms) => {
-    return new Promise((resolve) => setTimeout(resolve, ms * 1000))
-}
-
 window.addEventListener('alpine:init', () => {
     window.Mog = {
         get scheme() {
