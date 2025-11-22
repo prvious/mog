@@ -74,6 +74,14 @@ class MogManager
                         }
                     }
 
+                    document.addEventListener('livewire:navigated', () => {
+                        window.Mog.paint(window.localStorage.getItem('mog::paint') || 'system')
+                    })
+
+                    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                        window.Mog.paint(window.localStorage.getItem('mog::paint') || 'system')
+                    })
+
                     window.Mog.paint(window.localStorage.getItem('mog::paint') || 'system')
                 </script>
 
