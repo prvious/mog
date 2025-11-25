@@ -8,6 +8,7 @@
     'gap' => 14, // Gap between toasts
     'toastLifetime' => 4000, // Default lifetime of a toasts (in ms)
     'timeBeforeUnmount' => 200, // Equal to exit animation duration
+    'richColors' => false, // Use rich colors for toast types
 ])
 
 @php
@@ -113,122 +114,123 @@
                 <li
                     :id="$id('toast')"
                     data-sonner-toast
-                    data-rich-colors="false"
-                    :data-styled="!Boolean(toast.component || toast?.unstyled || unstyled)"
-                    data-inverted="false"
+                    :data-rich-colors="String(richColors)"
+                    :data-styled="String(!Boolean(toast.component || toast?.unstyled || unstyled))"
+                    :data-inverted="String(inverted)"
                     :data-mounted="String(mounted)"
                     :data-type="toast.type || 'default'"
-                    {{-- :data-promise="Boolean(toast.promise)" --}}
-                    data-promise="false"
-                    {{-- :data-swiped="swiped" --}}
-                    data-swiped="false"
+                    :data-promise="String(Boolean(toast.promise))"
                     :data-removed="String(removed)"
                     :data-y-position="toastPosition.y"
                     :data-x-position="toastPosition.x"
-                    data-swiping="false"
                     :data-dismissible="String(toast.dismissible)"
-                    data-swipe-out="false"
+                    :data-swiped="false"
+                    :data-swiping="false"
+                    :data-swipe-out="false"
+                    :data-swipe-direction="'right"
                     :data-expanded="String(expanded || (expandByDefault && mounted))"
                     :data-visible="String(isVisible)"
                     :data-index="index"
                     :data-front="String(isFront)"
                     :style="{
-                    '--index': index,
-                    '--toasts-before': index,
-                    '--z-index': toastsByPosition[toasterPosition].length - index,
-                    '--offset': `${removed ? offsetBeforeRemove : offset}px`,
-                    '--initial-height': expandByDefault ? 'auto' : `${initialHeight}px`,
-                }"
+                        '--index': index,
+                        '--toasts-before': index,
+                        '--z-index': toastsByPosition[toasterPosition].length - index,
+                        '--offset': `${removed ? offsetBeforeRemove : offset}px`,
+                        '--initial-height': expandByDefault ? 'auto' : `${initialHeight}px`,
+                    }"
                     x-data="{
-                    initialHeight: 0,
-                    offsetBeforeRemove: 0,
-                    mounted: false,
-                    unstyled: toast.unstyled || false,
+                        initialHeight: 0,
+                        offsetBeforeRemove: 0,
+                        mounted: false,
+                        unstyled: toast.unstyled || false,
+                        swiped: false,
+                        inverted: false,
+                        richColors: toast.richColors || @js($richColors),
 
-                    toastPosition: {
-                        y: (toast.position || toasterPosition).split('-')[0],
-                        x: (toast.position || toasterPosition).split('-')[1],
-                    },
+                        toastPosition: {
+                            y: (toast.position || toasterPosition).split('-')[0],
+                            x: (toast.position || toasterPosition).split('-')[1],
+                        },
 
-                    get isFront() {
-                        return this.index === 0
-                    },
+                        get isFront() {
+                            return this.index === 0
+                        },
 
-                    get isVisible() {
-                        return this.index + 1 <= {{ $visibleToasts }}
-                    },
+                        get isVisible() {
+                            return this.index + 1 <= {{ $visibleToasts }}
+                        },
 
-                    get heightIndex() {
-                        const currentPosition = toast.position || toasterPosition
-                        const samePositionHeights = this.heights.filter(
-                            (h) => h.position === currentPosition,
-                        )
+                        get heightIndex() {
+                            const currentPosition = toast.position || toasterPosition
+                            const samePositionHeights = this.heights.filter(
+                                (h) => h.position === currentPosition,
+                            )
 
-                        const idx = samePositionHeights.findIndex(
-                            (height) => height.toastId === toast.id,
-                        )
+                            const idx = samePositionHeights.findIndex(
+                                (height) => height.toastId === toast.id,
+                            )
 
-                        return idx >= 0 ? idx : 0
-                    },
+                            return idx >= 0 ? idx : 0
+                        },
 
-                    get toastsHeightBefore() {
-                        const currentPosition = toast.position || toasterPosition
-                        const samePositionHeights = heights.filter(
-                            (h) => h.position === currentPosition,
-                        )
+                        get toastsHeightBefore() {
+                            const currentPosition = toast.position || toasterPosition
+                            const samePositionHeights = heights.filter(
+                                (h) => h.position === currentPosition,
+                            )
 
-                        return samePositionHeights.reduce((prev, curr, reducerIndex) => {
-                            if (reducerIndex >= this.heightIndex) {
-                                return prev
+                            return samePositionHeights.reduce((prev, curr, reducerIndex) => {
+                                if (reducerIndex >= this.heightIndex) {
+                                    return prev
+                                }
+
+                                return prev + curr.height
+                            }, 0)
+                        },
+
+                        get offset() {
+                            return this.heightIndex * {{ $gap }} + this.toastsHeightBefore || 0
+                        },
+
+                        measureToast() {
+                            const originalHeight = $el.style.height
+                            $el.style.height = 'auto'
+
+                            const newHeight = $el.getBoundingClientRect().height
+
+                            $el.style.height = originalHeight
+
+                            this.initialHeight = newHeight
+
+                            const alreadyExists = this.heights.find((h) => h.toastId === toast.id)
+
+                            if (alreadyExists) {
+                                const alreadyExistsIndex = this.heights.findIndex(
+                                    (t) => t.toastId === alreadyExists.toastId,
+                                )
+
+                                this.heights[alreadyExistsIndex] = {
+                                    ...alreadyExists,
+                                    height: newHeight,
+                                }
+                            } else {
+                                this.heights.unshift({
+                                    toastId: toast.id,
+                                    height: newHeight,
+                                    position: toast.position,
+                                })
                             }
+                        },
 
-                            return prev + curr.height
-                        }, 0)
-                    },
+                        init() {
+                            $watch('mounted', (value) => this.measureToast())
 
-                    get offset() {
-                        return this.heightIndex * {{ $gap }} + this.toastsHeightBefore || 0
-                    },
-
-                    measureToast() {
-                        const originalHeight = $el.style.height
-                        $el.style.height = 'auto'
-
-                        const newHeight = $el.getBoundingClientRect().height
-
-                        $el.style.height = originalHeight
-
-                        this.initialHeight = newHeight
-
-                        const alreadyExists = this.heights.find((h) => h.toastId === toast.id)
-
-                        if (alreadyExists) {
-                            const alreadyExistsIndex = this.heights.findIndex(t => t.toastId === alreadyExists.toastId)
-
-                            this.heights[alreadyExistsIndex] = {
-                                ...alreadyExists,
-                                height: newHeight,
-                            };
-                        } else {
-                            this.heights.unshift({
-                                toastId: toast.id,
-                                height: newHeight,
-                                position: toast.position,
-                            });
-                        }
-
-                        {{-- console.log('HELO',this.heights, alreadyExists, toast.id); --}}
-                    },
-
-                    init() {
-                        $watch('mounted', value => this.measureToast())
-                        {{-- $watch('initialHeight', (value) => this.measureToast()) --}}
-
-                        $nextTick(() => {
-                            this.mounted = true
-                        })
-                    }
-                }">
+                            $nextTick(() => {
+                                this.mounted = true
+                            })
+                        },
+                    }">
                     <template x-if="toast.dismissible">
                         <button
                             aria-label="Close toast"
