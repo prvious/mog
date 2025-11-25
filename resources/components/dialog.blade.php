@@ -82,6 +82,7 @@
     <template x-teleport="#mog-dialog-container">
         <div
             x-show="dialog"
+            :data-state="dialog ? 'open' : 'closed'"
             x-transition:enter="transition-all ease-out"
             x-transition:enter-start="translate-x-[-50%] translate-y-[-60%] scale-95 opacity-0"
             x-transition:enter-end="translate-x-[-50%] translate-y-[-50%] scale-100 opacity-100"

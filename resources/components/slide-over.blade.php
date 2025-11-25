@@ -35,71 +35,91 @@
     }
 
     $defaultClasses = match ($side) {
-        'right' => 'data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm',
-        'left' => 'data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm',
-        'top' => 'data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top inset-x-0 top-0 h-auto border-b',
-        'bottom' => 'data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto border-t',
+        'right' => 'inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm',
+        'left' => 'inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm',
+        'top' => 'inset-x-0 top-0 h-auto border-b',
+        'bottom' => 'inset-x-0 bottom-0 h-auto border-t',
+    };
+
+    $transition = match ($side) {
+        'right' => ['enter' => 'data-[state=open]:slide-in-from-right', 'leave' => 'data-[state=closed]:slide-out-to-right'],
+        'left' => ['enter' => 'data-[state=open]:slide-in-from-left', 'leave' => 'data-[state=closed]:slide-out-to-left'],
+        'top' => ['enter' => 'data-[state=open]:slide-in-from-top', 'leave' => 'data-[state=closed]:slide-out-to-top'],
+        'bottom' => ['enter' => 'data-[state=open]:slide-in-from-bottom', 'leave' => 'data-[state=closed]:slide-out-to-bottom'],
     };
 
     if (isset($trigger)) {
-        $triggerAttributes = $trigger->attributes->merge(['x-on:click' => 'slideOver = true']);
-
-        $triggerAttributes->twMerge('h-max w-max');
-
-        $trigger->attributes = $triggerAttributes;
+        $trigger->attributes = $trigger->attributes->twMerge('h-max w-max');
     }
+
+    $x_model = $attributes->get('x-model') ?? null;
 @endphp
 
 <div
-    x-cloak
-    x-modelable="slideOver"
+    :id="id"
     x-data="{
+        id: $id('dialog'),
         slideOver: @js($open),
     }"
-    x-effect="
-        slideOver
-            ? document.body.setAttribute('data-scroll-locked', 'true')
-            : document.body.removeAttribute('data-scroll-locked')
-    ">
-    <div {{ $trigger->attributes }}>
+    x-init="
+        $watch('slideOver', (value) => {
+            if (value) {
+                $mog.dialog.open(id)
+            } else {
+                $mog.dialog.close(id)
+            }
+        })
+    "
+    x-modelable="slideOver"
+    x-on:mog::dialog-open.document="
+        if ($event.detail.id === id) {
+            slideOver = true
+        }
+    "
+    x-on:mog::dialog-close.document="
+        if ($event.detail.id === id) {
+            slideOver = false
+        }
+    "
+    @if(filled($x_model)) x-model="{{ $x_model }}" @endif>
+    <div {{ $trigger->attributes->merge(['x-on:click' => '$mog.dialog.open(id)']) }}>
         {{ $trigger }}
     </div>
 
-    <x-mog::overlay
-        x-model="slideOver"
-        x-on:click="slideOver = false"
-        class="bg-black/50" />
+    <template x-teleport="#mog-dialog-container">
+        <div
+            x-show="slideOver"
+            :data-state="slideOver ? 'open' : 'closed'"
+            x-transition:enter="{{ $transition['enter'] }}"
+            x-transition:leave="{{ $transition['leave'] }}"
+            {{ $attributes->twMerge('bg-background data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 flex flex-col gap-4 shadow-lg ease-in-out data-[state=closed]:duration-350 data-[state=open]:duration-350 data-[state=closed]:opacity-0', $defaultClasses) }}>
+            <div {{ $header->attributes->twMerge('flex flex-col gap-1.5 p-4') }}>
+                @if ($title->hasActualContent())
+                    <div {{ $title->attributes->twMerge('text-foreground font-semibold') }}>
+                        {{ $title }}
+                    </div>
+                @endif
 
-    <div
-        x-show="slideOver"
-        :data-state="slideOver ? 'open' : 'closed'"
-        {{ $attributes->twMerge('bg-background data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 flex flex-col gap-4 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500', $defaultClasses) }}>
-        <div {{ $header->attributes->twMerge('flex flex-col gap-1.5 p-4') }}>
-            @if ($title->hasActualContent())
-                <div {{ $title->attributes->twMerge('text-foreground font-semibold') }}>
-                    {{ $title }}
-                </div>
-            @endif
-
-            @if ($description->hasActualContent())
-                <div {{ $description->attributes->twMerge('text-muted-foreground text-sm') }}>
-                    {{ $description }}
-                </div>
-            @endif
-        </div>
-
-        @if ($content->hasActualContent())
-            <div>
-                {{ $content }}
+                @if ($description->hasActualContent())
+                    <div {{ $description->attributes->twMerge('text-muted-foreground text-sm') }}>
+                        {{ $description }}
+                    </div>
+                @endif
             </div>
-        @endif
 
-        <div {{ $footer->attributes->twMerge('mt-auto flex flex-col gap-2 p-4') }}>
-            @foreach ($orderedButtons as $name)
-                {{ $$name }}
-            @endforeach
+            @if ($content->hasActualContent())
+                <div>
+                    {{ $content }}
+                </div>
+            @endif
+
+            <div {{ $footer->attributes->twMerge('mt-auto flex flex-col gap-2 p-4') }}>
+                @foreach ($orderedButtons as $name)
+                    {{ $$name }}
+                @endforeach
+            </div>
         </div>
-    </div>
+    </template>
 </div>
 
 @php
