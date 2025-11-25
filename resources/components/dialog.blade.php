@@ -56,8 +56,6 @@
     }"
     x-init="
         $watch('dialog', (value) => {
-            console.log('Dialog', id, 'changed to', value)
-
             if (value) {
                 $mog.dialog.open(id)
             } else {
@@ -68,7 +66,6 @@
     x-modelable="dialog"
     x-on:mog::dialog-open.document="
         if ($event.detail.id === id) {
-            console.log('Opening dialog', id)
             dialog = true
         }
     "

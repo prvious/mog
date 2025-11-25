@@ -42,7 +42,7 @@
     };
 
     if (isset($trigger)) {
-        $triggerAttributes = $trigger->attributes->merge(['x-on:click' => 'open()']);
+        $triggerAttributes = $trigger->attributes->merge(['x-on:click' => 'slideOver = true']);
 
         $triggerAttributes->twMerge('h-max w-max');
 
@@ -52,17 +52,9 @@
 
 <div
     x-cloak
+    x-modelable="slideOver"
     x-data="{
         slideOver: @js($open),
-        open() {
-            this.slideOver = true
-        },
-        close() {
-            this.slideOver = false
-        },
-        toggle() {
-            this.slideOver = ! this.slideOver
-        },
     }"
     x-effect="
         slideOver
@@ -75,7 +67,7 @@
 
     <x-mog::overlay
         x-model="slideOver"
-        x-on:click="close()"
+        x-on:click="slideOver = false"
         class="bg-black/50" />
 
     <div

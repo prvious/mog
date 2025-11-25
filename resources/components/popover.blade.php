@@ -12,25 +12,17 @@
 @endphp
 
 <div
+    data-slot="popover"
     x-data="{
         open: @js($open ?? false),
-        toggle() {
-            this.open = ! this.open
-        },
-        show() {
-            this.open = true
-        },
-        hide() {
-            this.open = false
-        },
     }"
-    x-on:click.away="hide()"
-    x-on:keydown.escape="hide()"
-    data-slot="popover"
+    x-modelable="open"
+    x-on:click.away="open = false"
+    x-on:keydown.escape="open = false"
     {{ $attributes->twMerge('relative group') }}>
     <div
         {{ $trigger->attributes->twMerge('cursor-pointer') }}
-        x-on:click="toggle()"
+        x-on:click="open = !open"
         x-ref="trigger">
         {{ $trigger }}
     </div>
@@ -45,8 +37,8 @@
         }}
         x-show="open"
         x-trap="open"
-        x-on:click.away="hide()"
-        x-on:keydown.escape="hide()"
+        x-on:click.away="open = false"
+        x-on:keydown.escape="open = false"
         x-anchor.{{ $align }}.offset.{{ $offset }}="$refs.trigger"
         x-transition:enter="transition duration-200 ease-out"
         x-transition:enter-start="scale-95 transform opacity-0"

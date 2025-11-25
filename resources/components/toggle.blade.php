@@ -23,29 +23,26 @@
     };
 
     if (! $attributes->has('x-on:click')) {
-        $attributes = $attributes->merge(['x-on:click' => 'mog_toggle = !mog_toggle']);
+        $attributes = $attributes->merge(['x-on:click' => 'toggle = !toggle']);
     }
 @endphp
 
 <button
     x-cloak
     x-data="{
-        mog_toggle: @js((bool) ($default ?? false)),
-        toggle() {
-            this.mog_toggle = ! this.mog_toggle
-        },
+        toggle: @js((bool) ($default ?? false)),
     }"
-    x-modelable="mog_toggle"
-    x-bind:data-state="mog_toggle ? 'on' : 'off'"
+    x-modelable="toggle"
+    x-bind:data-state="toggle ? 'on' : 'off'"
     type="button"
     {{ $attributes->twMerge($defaultClasses, $variantClasses, $sizeClasses) }}>
-    <div {!! when(! is_null($off), 'x-show="!mog_toggle"') !!}>
+    <div {!! when(! is_null($off), 'x-show="!toggle"') !!}>
         {{ $slot }}
     </div>
 
     @if (! is_null($off))
         <div
-            x-show="mog_toggle"
+            x-show="toggle"
             {{ $off->attributes }}>
             {{ $off }}
         </div>

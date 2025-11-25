@@ -6,11 +6,8 @@
 <button
     x-data="{
         value: @js($checked),
-        toggle() {
-            this.value = ! this.value
-        },
     }"
-    x-on:click="toggle()"
+    x-on:click="value = !value"
     :data-state="value ? 'checked' : 'unchecked'"
     x-modelable="value"
     role="checkbox"

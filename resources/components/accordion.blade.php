@@ -15,22 +15,15 @@
 
 <div
     data-mog-groupable
+    data-slot="accordion"
     x-data="{
-        mog_open: @js($open),
-        toggle() {
-            this.mog_open = ! this.mog_open
-        },
-        close() {
-            this.mog_open = false
-        },
-        open() {
-            this.mog_open = true
-        },
+        open: @js($open),
     }"
-    {{ $attributes->twMerge('border-b group')->merge(['x-bind:data-state' => "mog_open ? 'open' : 'closed'"]) }}>
+    x-modelable="open"
+    {{ $attributes->twMerge('border-b group')->merge(['x-bind:data-state' => "open ? 'open' : 'closed'"]) }}>
     <div class="flex">
         <button
-            {!! when($collapsible !== false, 'x-on:click="toggle()"') !!}
+            {!! when($collapsible !== false, 'x-on:click="open = !open"') !!}
             {{ $trigger->attributes->twMerge('flex flex-1 items-center justify-between py-4 text-left text-sm font-medium transition-[rotate] hover:underline group-data-[state=closed]:[&>svg]:rotate-180 [&>svg]:transition-[rotate] [&>svg]:duration-200') }}>
             {{ $trigger }}
             {{ svg('mog-chevron-up', 'text-muted-foreground h-4 w-4 shrink-0') }}
