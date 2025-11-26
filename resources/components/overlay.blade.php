@@ -31,6 +31,6 @@
     id="mog-dialog-container"
     class="contents"></div>
 
-@persist('mog::toast')
-    <x-mog::toast />
+@persist('mog::toaster')
+    <x-mog::toaster />
 @endpersist
