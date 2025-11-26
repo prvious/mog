@@ -9,6 +9,11 @@ use Livewire\Drawer\Utils;
 class MogManager
 {
     /**
+     * Indicates if the toaster has already been rendered.
+     */
+    private bool $overlayRendered = false;
+
+    /**
      * Parse aspect ratio string into a float value.
      *
      * Accepts formats like "16/9", "4/3", or numeric strings.
@@ -33,6 +38,16 @@ class MogManager
         }
 
         return (float) $ratio;
+    }
+
+    public function overlayAlreadyRendered(): bool
+    {
+        return $this->overlayRendered;
+    }
+
+    public function markOverlayAsRendered(): void
+    {
+        $this->overlayRendered = true;
     }
 
     public function registerBladeDirectives(): void

@@ -1,3 +1,7 @@
+@php
+    throw_if(app('mog')->overlayAlreadyRendered(), '<x-mog::overlay /> component is being rendered multiple times. Please ensure it is only included once per page.');
+@endphp
+
 <div
     x-cloak
     x-data="{
@@ -34,3 +38,7 @@
 @persist('mog::toaster')
     <x-mog::toaster />
 @endpersist
+
+@php
+    app('mog')->markOverlayAsRendered();
+@endphp
