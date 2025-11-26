@@ -140,6 +140,18 @@ window.addEventListener('alpine:init', () => {
                 return id
             },
 
+            message: (title, data) => {
+                return window.Mog.toast.create(title, data)
+            },
+
+            error: (title, data) => {
+                return window.Mog.toast.create(title, { type: 'error', ...data })
+            },
+
+            success: (title, data) => {
+                return window.Mog.toast.create(title, { type: 'success', ...data })
+            },
+
             info: (title, data) => {
                 return window.Mog.toast.create(title, { type: 'info', ...data })
             },
@@ -148,8 +160,8 @@ window.addEventListener('alpine:init', () => {
                 return window.Mog.toast.create(title, { type: 'warning', ...data })
             },
 
-            error: (title, data) => {
-                return window.Mog.toast.create(title, { type: 'error', ...data })
+            loading: (title, data) => {
+                return window.Mog.toast.create(title, { type: 'loading', ...data })
             },
 
             dismiss: (toast) => {

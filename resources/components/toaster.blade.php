@@ -394,8 +394,8 @@
                                     :data-visible="String(toast.type === 'loading')">
                                     <div class="sonner-spinner">
                                         <template
-                                            v-for="bar in bars"
-                                            :key="`spinner-bar-${bar}`">
+                                            x-for="(bar, barIdx) in bars"
+                                            :key="`spinner-bar-${barIdx}`">
                                             <div class="sonner-loading-bar"></div>
                                         </template>
                                     </div>
