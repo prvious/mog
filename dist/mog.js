@@ -78,13 +78,21 @@
           let type = "default";
           let position = "bottom-right";
           let html = "";
+          let closeButton = true;
+          let cancel = void 0;
+          let action = void 0;
+          let duration = void 0;
           if (typeof options.description != "undefined") description = options.description;
           if (typeof options.type != "undefined") type = options.type;
           if (typeof options.position != "undefined") position = options.position;
           if (typeof options.html != "undefined") html = options.html;
+          if (typeof options.closeButton != "undefined") closeButton = options.closeButton;
+          if (typeof options.cancel != "undefined") cancel = options.cancel;
+          if (typeof options.action != "undefined") action = options.action;
+          if (typeof options.duration != "undefined") duration = options.duration;
           const dismissible = options.dismissible === void 0 ? true : options.dismissible;
           const id = typeof options.id === "number" || options.id && options.id?.length > 0 ? options.id : window.Mog.toastsCounter++;
-          const toast = { id, type, title, description, position, html, dismissible };
+          const toast = { id, type, title, description, position, html, dismissible, closeButton, cancel, action, duration };
           const alreadyExists = window.Mog.toasts.find((toast2) => {
             return toast2.id === id;
           });
