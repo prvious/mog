@@ -32,10 +32,10 @@ window.addEventListener("alpine:init", () => {
       }
     },
     dialogs: Alpine.reactive([]),
-    toasts: Alpine.reactive([]),
+    toastSubscribers: [],
     dismissedToasts: Alpine.reactive(/* @__PURE__ */ new Set()),
     getActiveToasts: () => {
-      return window.Mog.toasts.filter((toast) => !window.Mog.dismissedToasts.has(toast.id));
+      return Alpine.store("mog").toasts.filter((toast) => !window.Mog.dismissedToasts.has(toast.id));
     },
     toastsCounter: 0,
     dialog: {
@@ -92,25 +92,27 @@ window.addEventListener("alpine:init", () => {
         const dismissible = options.dismissible === void 0 ? true : options.dismissible;
         const id = typeof options.id === "number" || options.id && options.id?.length > 0 ? options.id : window.Mog.toastsCounter++;
         const toast = { id, type, title, description, position, html, dismissible, closeButton, cancel, action, duration };
-        const alreadyExists = window.Mog.toasts.find((toast2) => {
+        const alreadyExists = Alpine.store("mog").toasts.find((toast2) => {
           return toast2.id === id;
         });
         if (window.Mog.dismissedToasts.has(id)) {
           window.Mog.dismissedToasts.delete(id);
         }
         if (alreadyExists) {
-          const index = window.Mog.toasts.findIndex((toast2) => toast2.id === id);
-          window.Mog.toasts[index] = {
-            ...alreadyExists,
-            ...options,
-            id,
-            dismissible,
-            title
-          };
+          const index = Alpine.store("mog").toasts.findIndex((toast2) => toast2.id === id);
+          if (index !== -1) {
+            window.Mog.toast.publish({ ...alreadyExists, ...options, id, title });
+            Alpine.store("mog").toasts[index] = {
+              ...alreadyExists,
+              ...options,
+              id,
+              title
+            };
+          }
         } else {
-          window.Mog.toasts.unshift(toast);
+          window.Mog.toast.publish(toast);
+          Alpine.store("mog").toasts.unshift(toast);
         }
-        window.dispatchEvent(new CustomEvent("mog::toast-show", { detail: toast }));
         return id;
       },
       message: (title, data) => {
@@ -131,15 +133,35 @@ window.addEventListener("alpine:init", () => {
       loading: (title, data) => {
         return window.Mog.toast.create(title, { type: "loading", ...data });
       },
-      dismiss: (toast) => {
-        window.Mog.toasts = Alpine.reactive(window.Mog.toasts.filter((t) => t !== toast));
-        document.dispatchEvent(new CustomEvent("mog::toast-dismiss", { detail: { toast } }));
+      dismiss: (id) => {
+        if (id) {
+          window.Mog.dismissedToasts.add(id);
+          requestAnimationFrame(() => window.Mog.toastSubscribers.forEach((subscriber) => subscriber({ id, dismiss: true })));
+        } else {
+          Alpine.store("mog").toasts.forEach((toast) => {
+            window.Mog.toastSubscribers.forEach((subscriber) => subscriber({ id: toast.id, dismiss: true }));
+          });
+        }
+        return id;
       },
       dismissAll: () => {
-        window.Mog.toasts.forEach((toast) => window.Mog.toast.dismiss(toast));
+        Alpine.store("mog").toasts.forEach((toast) => window.Mog.toast.dismiss(toast.id));
+      },
+      subscribe: (callback) => {
+        window.Mog.toastSubscribers.push(callback);
+        return () => {
+          const index = window.Mog.toastSubscribers.indexOf(callback);
+          window.Mog.toastSubscribers.splice(index, 1);
+        };
+      },
+      publish: (toast) => {
+        window.Mog.toastSubscribers.forEach((subscriber) => subscriber(toast));
       }
     }
   };
   Alpine.magic("mog", () => window.Mog);
+  Alpine.store("mog", {
+    toasts: []
+  });
 });
 //# sourceMappingURL=mog.esm.js.map

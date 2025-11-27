@@ -6,7 +6,7 @@
     'mobileViewportOffset' => '16px', // Mobile viewport padding
     'toastWidth' => '356px', // Toast width
     'gap' => 14, // Gap between toasts
-    'toastLifetime' => 4000, // Default lifetime of a toasts (in ms)
+    'toastLifetime' => 4_000, // Default lifetime of a toasts (in ms)
     'timeBeforeUnmount' => 200, // Equal to exit animation duration
     'richColors' => false, // Use rich colors for toast types
 ])
@@ -17,9 +17,7 @@
 
 <section
     x-data="{
-        get toasts() {
-            return $mog.toasts
-        },
+        toasts: [...$store.mog.toasts],
         heights: [],
         isDocumentHidden: false,
         get possiblePositions() {
@@ -51,12 +49,12 @@
 
         removeToast(toastToRemove) {
             if (
-                ! this.toasts.find((toast) => toast.id === toastToRemove.id)?.delete
+                ! this.toasts.find((toast) => toast.id === toastToRemove.id)
+                    ?.isDeleted
             ) {
-                $mog.toast.dismiss(toastToRemove)
+                $mog.toast.dismiss(toastToRemove.id)
             }
 
-            // First remove toast
             this.toasts = this.toasts.filter((t) => t.id !== toastToRemove.id)
 
             // Delay cleaning heights to give animation time to complete
@@ -68,6 +66,42 @@
                     )
                 }
             }, @js($timeBeforeUnmount) + 50) // Slightly delay to ensure animation completion
+        },
+
+        unsubscribe: undefined,
+
+        init() {
+            this.unsubscribe = $mog.toast.subscribe((toast) => {
+                if (toast.dismiss) {
+                    $store.mog.toasts = this.toasts.map((t) =>
+                        t.id === toast.id ? { ...t, isDeleted: true } : t,
+                    )
+                    return
+                }
+
+                $nextTick(() => {
+                    const indexOfExistingToast = this.toasts.findIndex(
+                        (t) => t.id === toast.id,
+                    )
+
+                    // Update the toast if it already exists
+                    if (indexOfExistingToast !== -1) {
+                        this.toasts = [
+                            ...this.toasts.slice(0, indexOfExistingToast),
+                            { ...this.toasts[indexOfExistingToast], ...toast },
+                            ...this.toasts.slice(indexOfExistingToast + 1),
+                        ]
+                    } else {
+                        this.toasts = [toast, ...this.toasts]
+                    }
+                })
+            })
+        },
+
+        destroy() {
+            if (this.unsubscribe) {
+                this.unsubscribe()
+            }
         },
     }"
     x-on:visibilitychange.window="isDocumentHidden = document.hidden"
@@ -107,6 +141,7 @@
             x-data="{
                 expandByDefault: @js($expandByDefault),
                 expanded: false,
+                interacting: false,
                 theme: $mog.scheme,
                 olPosition: {
                     y: toasterPosition.split('-')[0],
@@ -136,7 +171,23 @@
             }"
             x-on:mouseenter="expanded = true"
             x-on:mousemove="expanded = true"
-            x-on:mouseleave="expanded = false">
+            x-on:mouseleave="
+                if (! interacting) {
+                    expanded = false
+                }
+            "
+            x-on:dragend="expanding = false"
+            x-on:pointerdown="
+                const isNotDismissible =
+                    $event.target instanceof HTMLElement &&
+                    $event.target.dataset.dismissible === 'false'
+
+                if (isNotDismissible) return
+                interacting = true
+            "
+            x-on:pointerup="
+                interacting = false
+            ">
             <template
                 x-for="(toast, index) in filteredToasts(toasterPosition, index)"
                 :key="toast.id">
@@ -153,9 +204,9 @@
                     :data-y-position="toastPosition.y"
                     :data-x-position="toastPosition.x"
                     :data-dismissible="String(toast.dismissible)"
-                    :data-swiped="false"
-                    :data-swiping="false"
-                    :data-swipe-out="false"
+                    :data-swiped="String(false)"
+                    :data-swiping="String(false)"
+                    :data-swipe-out="String(false)"
                     :data-swipe-direction="'right'"
                     :data-expanded="String(expanded || (expandByDefault && mounted))"
                     :data-visible="String(isVisible)"
@@ -177,8 +228,9 @@
                         inverted: false,
                         removed: false,
                         richColors: toast.richColors || @js($richColors),
-
-                        interacting: false,
+                        get isDeleted() {
+                            return toast.isDeleted || false
+                        },
 
                         timer: null,
                         closeTimerStartTimeRef: 0,
@@ -280,8 +332,7 @@
                             this.offsetBeforeRemove = this.offset
 
                             setTimeout(() => {
-                                // $dispatch('removeToast', this.toast)
-                                this.removeToast(this.toast)
+                                this.removeToast({ ...this.toast, isDeleted: this.isDeleted })
                             }, @js($timeBeforeUnmount))
                         },
 
@@ -343,7 +394,16 @@
                             $watch('isDocumentHidden', () => this.handleTimer())
 
                             $nextTick(() => {
-                                this.mounted = true
+                                setTimeout(() => {
+                                    this.mounted = true
+                                }, 50)
+                            })
+
+                            $watch('isDeleted', (value) => {
+                                if (value !== undefined && value) {
+                                    this.deleteToast()
+                                    toast.onDismiss?.(toast)
+                                }
                             })
                         },
 
@@ -481,7 +541,7 @@
                                 if (! toast.dismissible) return
 
                                 toast.cancel.onClick?.($event)
-                                deleteToast()
+                                this.deleteToast()
                             "
                             x-text="toast.cancel.label"></button>
                     </template>
@@ -495,7 +555,7 @@
 
                                 toast.action.onClick?.($event)
                                 if ($event.defaultPrevented) return
-                                deleteToast()
+                                this.deleteToast()
                             "
                             x-text="toast.action.label"></button>
                     </template>
