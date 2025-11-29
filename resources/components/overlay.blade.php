@@ -1,5 +1,5 @@
 @php
-    throw_if(app('mog')->overlayAlreadyRendered(), '<x-mog::overlay /> component is being rendered multiple times. Please ensure it is only included once per page.');
+    throw_if(app('mog')->overlayAlreadyRendered(), 'x-mog::overlay component is being rendered multiple times. Please ensure it is only included once per page.');
 @endphp
 
 <div
