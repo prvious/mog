@@ -8,9 +8,6 @@
     'open' => false,
 ])
 
-@php
-@endphp
-
 <div
     data-slot="popover"
     x-data="{
@@ -19,7 +16,7 @@
     x-modelable="open"
     x-on:click.away="open = false"
     x-on:keydown.escape="open = false"
-    {{ $attributes->twMerge('relative group') }}>
+    {{ $attributes->twMerge('inline-flex') }}>
     <div
         {{ $trigger->attributes->twMerge('cursor-pointer') }}
         x-on:click="open = !open"
@@ -30,9 +27,7 @@
     <div
         {{
             $content->attributes->twMerge(
-                'top-(--top) left-(--left) transform-(--transform) mt-(--margin-top) fixed z-50',
-                'bg-popover text-popover-foreground',
-                'rounded-md border p-4 shadow-md outline-none w-full absolute',
+                'z-50 bg-popover text-popover-foreground rounded-md border p-4 shadow-md outline-none',
             )
         }}
         x-show="open"
