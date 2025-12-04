@@ -55,7 +55,7 @@
         x-transition:leave-end="scale-95 transform opacity-0"
         role="tooltip"
         class="z-50">
-        <div {{ $content->attributes->twMerge('relative bg-foreground text-background text-balance rounded-md px-3 py-1.5 text-xs min-w-max') }}>
+        <div {{ $content->attributes->twMerge('relative bg-foreground text-background text-balance rounded-sm px-3 py-1.5 text-xs min-w-max') }}>
             {{ $content }}
         </div>
 
@@ -63,7 +63,7 @@
             data-slot="tooltip-arrow"
             class="-z-10">
             <svg
-                class="bg-foreground fill-foreground block size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]"
+                class="bg-foreground fill-foreground block size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-none"
                 width="10"
                 height="5"
                 viewBox="0 0 30 10"

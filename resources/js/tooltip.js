@@ -113,9 +113,16 @@ export default function (Alpine) {
                             hide({ strategy: 'referenceHidden', ...detectOverflowOptions }),
                         ],
                     }).then(({ x, y, placement: finalPlacement, middlewareData }) => {
-                        let arrowData = { arrowX: middlewareData.arrow?.x, arrowY: -arrowEl.offsetHeight / 2 }
+                        let [side] = finalPlacement.split('-')
+                        let arrowData = {}
 
-                        unstyled || setStyles(el, x, y, arrowData.arrowX, arrowData.arrowY)
+                        if (side === 'top' || side === 'bottom') {
+                            arrowData = { arrowX: middlewareData.arrow?.x, arrowY: -arrowEl.offsetHeight / 2 }
+                        } else if (side === 'right') {
+                            arrowData = { arrowX: -arrowEl.offsetWidth / 2, arrowY: middlewareData.arrow?.y }
+                        } else if (side === 'left') {
+                            arrowData = { arrowX: -arrowEl.offsetWidth / 2, arrowY: middlewareData.arrow?.y }
+                        }
 
                         // Only trigger Alpine reactivity when the value actually changes...
                         if (JSON.stringify({ x, y, ...arrowData }) !== previousValue) {
@@ -123,14 +130,28 @@ export default function (Alpine) {
                             el._x_tooltip.y = y
                             el._x_tooltip.arrowX = arrowData.arrowX
                             el._x_tooltip.arrowY = arrowData.arrowY
-                            let [side, align] = finalPlacement.split('-')
 
-                            arrowEl.style[OPPOSITE_SIDE[side]] = 0
+                            // Clear previous positioning
+                            arrowEl.style.left = ''
+                            arrowEl.style.right = ''
+                            arrowEl.style.top = ''
+                            arrowEl.style.bottom = ''
+
                             arrowEl.style.position = 'absolute'
-                            // arrowEl.style.zIndex = 49
                             arrowEl.style.transformOrigin = transformOriginStyle[side]
                             arrowEl.style.transform = transformStyle[side]
+
+                            // Set arrow position based on side
+                            if (side === 'top' || side === 'bottom') {
+                                arrowEl.style.left = arrowData.arrowX + 'px'
+                                arrowEl.style[OPPOSITE_SIDE[side]] = 0
+                            } else if (side === 'right' || side === 'left') {
+                                arrowEl.style.top = arrowData.arrowY + 'px'
+                                arrowEl.style[OPPOSITE_SIDE[side]] = 0
+                            }
                         }
+
+                        unstyled || setTooltipStyles(el, x, y)
 
                         previousValue = JSON.stringify({ x, y, ...arrowData })
                     })
@@ -146,19 +167,23 @@ export default function (Alpine) {
                 let { placement, offsetValue, unstyled } = getOptions(modifiers)
 
                 if (el._x_tooltip) {
-                    unstyled || setStyles(el, el._x_tooltip.x, el._x_tooltip.y, el._x_tooltip.arrowX, el._x_tooltip.arrowY)
+                    unstyled || setTooltipStyles(el, el._x_tooltip.x, el._x_tooltip.y)
                 }
             },
         ),
     )
 }
 
-function setStyles(el, x, y, arrowX, arrowY) {
+function setTooltipStyles(el, x, y) {
     Object.assign(el.style, {
         left: x + 'px',
         top: y + 'px',
         position: 'absolute',
     })
+}
+
+function setStyles(el, x, y, arrowX, arrowY) {
+    setTooltipStyles(el, x, y)
 
     Object.assign(el.querySelector('[data-slot="tooltip-arrow"]').style, {
         left: arrowX + 'px',

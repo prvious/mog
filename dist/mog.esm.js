@@ -1552,19 +1552,36 @@ function tooltip_default(Alpine2) {
               hide2({ strategy: "referenceHidden", ...detectOverflowOptions })
             ]
           }).then(({ x, y, placement: finalPlacement, middlewareData }) => {
-            let arrowData = { arrowX: middlewareData.arrow?.x, arrowY: -arrowEl.offsetHeight / 2 };
-            unstyled || setStyles(el, x, y, arrowData.arrowX, arrowData.arrowY);
+            let [side] = finalPlacement.split("-");
+            let arrowData = {};
+            if (side === "top" || side === "bottom") {
+              arrowData = { arrowX: middlewareData.arrow?.x, arrowY: -arrowEl.offsetHeight / 2 };
+            } else if (side === "right") {
+              arrowData = { arrowX: -arrowEl.offsetWidth / 2, arrowY: middlewareData.arrow?.y };
+            } else if (side === "left") {
+              arrowData = { arrowX: -arrowEl.offsetWidth / 2, arrowY: middlewareData.arrow?.y };
+            }
             if (JSON.stringify({ x, y, ...arrowData }) !== previousValue) {
               el._x_tooltip.x = x;
               el._x_tooltip.y = y;
               el._x_tooltip.arrowX = arrowData.arrowX;
               el._x_tooltip.arrowY = arrowData.arrowY;
-              let [side, align] = finalPlacement.split("-");
-              arrowEl.style[OPPOSITE_SIDE[side]] = 0;
+              arrowEl.style.left = "";
+              arrowEl.style.right = "";
+              arrowEl.style.top = "";
+              arrowEl.style.bottom = "";
               arrowEl.style.position = "absolute";
               arrowEl.style.transformOrigin = transformOriginStyle[side];
               arrowEl.style.transform = transformStyle[side];
+              if (side === "top" || side === "bottom") {
+                arrowEl.style.left = arrowData.arrowX + "px";
+                arrowEl.style[OPPOSITE_SIDE[side]] = 0;
+              } else if (side === "right" || side === "left") {
+                arrowEl.style.top = arrowData.arrowY + "px";
+                arrowEl.style[OPPOSITE_SIDE[side]] = 0;
+              }
             }
+            unstyled || setTooltipStyles(el, x, y);
             previousValue = JSON.stringify({ x, y, ...arrowData });
           });
         };
@@ -1575,21 +1592,17 @@ function tooltip_default(Alpine2) {
       (el, { expression, modifiers, value }, { cleanup, evaluate: evaluate2 }) => {
         let { placement, offsetValue, unstyled } = getOptions(modifiers);
         if (el._x_tooltip) {
-          unstyled || setStyles(el, el._x_tooltip.x, el._x_tooltip.y, el._x_tooltip.arrowX, el._x_tooltip.arrowY);
+          unstyled || setTooltipStyles(el, el._x_tooltip.x, el._x_tooltip.y);
         }
       }
     )
   );
 }
-function setStyles(el, x, y, arrowX, arrowY) {
+function setTooltipStyles(el, x, y) {
   Object.assign(el.style, {
     left: x + "px",
     top: y + "px",
     position: "absolute"
-  });
-  Object.assign(el.querySelector('[data-slot="tooltip-arrow"]').style, {
-    left: arrowX + "px",
-    top: arrowY + "px"
   });
 }
 function getOptions(modifiers) {
