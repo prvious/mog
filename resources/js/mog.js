@@ -1,4 +1,8 @@
+import tooltip from './tooltip.js'
+
 window.addEventListener('alpine:init', () => {
+    tooltip(Alpine)
+
     window.Mog = {
         get scheme() {
             let theme = this.theme
