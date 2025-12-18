@@ -11,5 +11,6 @@
     "spacesAfterControlDirective": 1,
     "ignoreDirectives": [],
     "customIfs": [],
-    "useLaravelPint": true
+    "useLaravelPint": true,
+    "normalizeInlineSlotNames": false
 }
