@@ -1,4 +1,4 @@
-<div {{ $attributes->twMerge('relative') }}>
+<div {{ $attributes->cn('relative') }}>
     {{ $slot }}
 
     <span

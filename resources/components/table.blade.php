@@ -15,11 +15,11 @@
     class="relative w-full overflow-x-auto">
     <table
         data-slot="table"
-        {{ $attributes->twMerge('w-full caption-bottom text-sm') }}>
+        {{ $attributes->cn('w-full caption-bottom text-sm') }}>
         @if ($caption->hasActualContent())
             <caption
                 data-slot="table-caption"
-                {{ $caption->attributes->twMerge('text-muted-foreground mt-4 text-sm') }}>
+                {{ $caption->attributes->cn('text-muted-foreground mt-4 text-sm') }}>
                 {{ $caption }}
             </caption>
         @endif
@@ -27,14 +27,14 @@
         @if ($header->hasActualContent())
             <thead
                 data-slot="table-header"
-                {{ $header->attributes->twMerge('[&_tr]:border-b') }}>
+                {{ $header->attributes->cn('[&_tr]:border-b') }}>
                 {{ $header }}
             </thead>
         @endif
 
         <tbody
             data-slot="table-body"
-            {{ $body->attributes->twMerge('[&_tr:last-child]:border-0') }}>
+            {{ $body->attributes->cn('[&_tr:last-child]:border-0') }}>
             @if ($body->hasActualContent())
                 {{ $body ?? $slot }}
             @endif
@@ -43,7 +43,7 @@
         @if ($footer->hasActualContent())
             <tfoot
                 data-slot="table-footer"
-                {{ $footer->attributes->twMerge('bg-muted/50 border-t font-medium [&>tr]:last:border-b-0') }}>
+                {{ $footer->attributes->cn('bg-muted/50 border-t font-medium [&>tr]:last:border-b-0') }}>
                 {{ $footer }}
             </tfoot>
         @endif

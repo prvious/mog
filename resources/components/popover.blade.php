@@ -16,9 +16,9 @@
     x-modelable="open"
     x-on:click.away="open = false"
     x-on:keydown.escape="open = false"
-    {{ $attributes->twMerge('inline-flex') }}>
+    {{ $attributes->cn('inline-flex') }}>
     <div
-        {{ $trigger->attributes->twMerge('cursor-pointer') }}
+        {{ $trigger->attributes->cn('cursor-pointer') }}
         x-on:click="open = !open"
         x-ref="trigger">
         {{ $trigger }}
@@ -26,7 +26,7 @@
 
     <div
         {{
-            $content->attributes->twMerge(
+            $content->attributes->cn(
                 'z-50 bg-popover text-popover-foreground rounded-md border p-4 shadow-md outline-none',
             )
         }}

@@ -22,6 +22,6 @@
     role="group"
     data-slot="field"
     data-orientation="{{ $orientation }}"
-    {{ $attributes->twMerge('group/field flex w-full gap-3 data-[invalid=true]:text-destructive', $orientationClasses) }}>
+    {{ $attributes->cn('group/field flex w-full gap-3 data-[invalid=true]:text-destructive', $orientationClasses) }}>
     {{ $slot }}
 </div>

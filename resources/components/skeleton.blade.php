@@ -1,3 +1,3 @@
 <div
     data-slot="skeleton"
-    {{ $attributes->twMerge('bg-accent animate-pulse rounded-md') }}></div>
+    {{ $attributes->cn('bg-accent animate-pulse rounded-md') }}></div>

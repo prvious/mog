@@ -89,19 +89,19 @@
             x-transition:leave="transition-all ease-in"
             x-transition:leave-start="translate-x-[-50%] translate-y-[-50%] scale-100 opacity-100"
             x-transition:leave-end="translate-x-[-50%] translate-y-[-60%] scale-95 opacity-0"
-            {{ $attributes->twMerge('fixed left-[50%] top-[45%] flex flex-col w-full translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-4 sm:rounded-lg ring-4 ring-ring/15 border border-border dark:ring-ring/25', $size) }}>
-            <div {{ $header->attributes->twMerge('flex flex-col gap-2 text-center sm:text-left') }}>
-                <div {{ $title->attributes->twMerge('text-lg font-semibold') }}>
+            {{ $attributes->cn('fixed left-[50%] top-[45%] flex flex-col w-full translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-4 sm:rounded-lg ring-4 ring-ring/15 border border-border dark:ring-ring/25', $size) }}>
+            <div {{ $header->attributes->cn('flex flex-col gap-2 text-center sm:text-left') }}>
+                <div {{ $title->attributes->cn('text-lg font-semibold') }}>
                     {{ $title }}
                 </div>
                 <div
-                    {{ $content->attributes->twMerge('text-sm px-3') }}
+                    {{ $content->attributes->cn('text-sm px-3') }}
                     x-trap="dialog">
                     {{ $content }}
                 </div>
             </div>
 
-            <div {{ $footer->attributes->twMerge('flex flex-col-reverse items-center sm:[align-items:unset] sm:flex-row sm:justify-end gap-2') }}>
+            <div {{ $footer->attributes->cn('flex flex-col-reverse items-center sm:[align-items:unset] sm:flex-row sm:justify-end gap-2') }}>
                 @foreach ($orderedButtons as $name)
                     {{ $$name }}
                 @endforeach

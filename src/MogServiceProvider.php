@@ -35,7 +35,7 @@ class MogServiceProvider extends ServiceProvider
         ViewFactory::macro('endArraySlot', CustomCompiler::compileEndArraySlotDirective());
 
         $this->callAfterResolving(BladeCompiler::class, function (BladeCompiler $blade, Application $app): void {
-            $blade->directive('cn', fn (?string $expression): string => "<?php echo app('mog')->twMerge($expression); ?>");
+            $blade->directive('cn', fn (?string $expression): string => "<?php echo app('mog')->cn($expression); ?>");
 
             $blade->directive('arraySlot', CustomCompiler::compileArraySlot(...));
             $blade->directive('endArraySlot', CustomCompiler::compileEndArraySlot(...));

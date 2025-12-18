@@ -1,7 +1,7 @@
 <div
     data-slot="field-separator"
     data-content="@js($slot->isNotEmpty())"
-    {{ $attributes->twMerge('relative -my-2 h-5 text-sm group-data-[variant=outline]/field-group:-mb-2') }}>
+    {{ $attributes->cn('relative -my-2 h-5 text-sm group-data-[variant=outline]/field-group:-mb-2') }}>
     <x-mog::separator class="absolute inset-0 top-1/2" />
     @if ($slot->isNotEmpty())
         <span

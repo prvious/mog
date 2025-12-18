@@ -6,7 +6,7 @@
     role="navigation"
     aria-label="pagination"
     data-slot="pagination"
-    {{ $attributes->twMerge('mx-auto flex w-full justify-center') }}>
+    {{ $attributes->cn('mx-auto flex w-full justify-center') }}>
     <ul
         data-slot="pagination-content"
         class="flex flex-row items-center gap-1">

@@ -34,7 +34,7 @@
     x-on:focus="open = true"
     x-on:blur="open = false"
     x-on:click="open = false"
-    {{ $attributes->twMerge('inline-flex ') }}>
+    {{ $attributes->cn('inline-flex ') }}>
     <div
         x-ref="trigger"
         data-slot="tooltip-trigger">
@@ -55,7 +55,7 @@
         x-transition:leave-end="scale-95 transform opacity-0"
         role="tooltip"
         class="z-50">
-        <div {{ $content->attributes->twMerge('relative bg-foreground text-background text-balance rounded-sm px-3 py-1.5 text-xs min-w-max') }}>
+        <div {{ $content->attributes->cn('relative bg-foreground text-background text-balance rounded-sm px-3 py-1.5 text-xs min-w-max') }}>
             {{ $content }}
         </div>
 

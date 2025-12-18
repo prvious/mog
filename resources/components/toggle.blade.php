@@ -35,7 +35,7 @@
     x-modelable="toggle"
     x-bind:data-state="toggle ? 'on' : 'off'"
     type="button"
-    {{ $attributes->twMerge($defaultClasses, $variantClasses, $sizeClasses) }}>
+    {{ $attributes->cn($defaultClasses, $variantClasses, $sizeClasses) }}>
     <div {!! when(! is_null($off), 'x-show="!toggle"') !!}>
         {{ $slot }}
     </div>

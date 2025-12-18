@@ -49,7 +49,7 @@
     };
 
     if (isset($trigger)) {
-        $trigger->attributes = $trigger->attributes->twMerge('h-max w-max');
+        $trigger->attributes = $trigger->attributes->cn('h-max w-max');
     }
 
     $x_model = $attributes->get('x-model') ?? null;
@@ -92,16 +92,16 @@
             :data-state="slideOver ? 'open' : 'closed'"
             x-transition:enter="{{ $transition['enter'] }}"
             x-transition:leave="{{ $transition['leave'] }}"
-            {{ $attributes->twMerge('bg-background data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 flex flex-col gap-4 shadow-lg ease-in-out data-[state=closed]:duration-350 data-[state=open]:duration-350 data-[state=closed]:opacity-0', $defaultClasses) }}>
-            <div {{ $header->attributes->twMerge('flex flex-col gap-1.5 p-4') }}>
+            {{ $attributes->cn('bg-background data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 flex flex-col gap-4 shadow-lg ease-in-out data-[state=closed]:duration-350 data-[state=open]:duration-350 data-[state=closed]:opacity-0', $defaultClasses) }}>
+            <div {{ $header->attributes->cn('flex flex-col gap-1.5 p-4') }}>
                 @if ($title->hasActualContent())
-                    <div {{ $title->attributes->twMerge('text-foreground font-semibold') }}>
+                    <div {{ $title->attributes->cn('text-foreground font-semibold') }}>
                         {{ $title }}
                     </div>
                 @endif
 
                 @if ($description->hasActualContent())
-                    <div {{ $description->attributes->twMerge('text-muted-foreground text-sm') }}>
+                    <div {{ $description->attributes->cn('text-muted-foreground text-sm') }}>
                         {{ $description }}
                     </div>
                 @endif
@@ -113,7 +113,7 @@
                 </div>
             @endif
 
-            <div {{ $footer->attributes->twMerge('mt-auto flex flex-col gap-2 p-4') }}>
+            <div {{ $footer->attributes->cn('mt-auto flex flex-col gap-2 p-4') }}>
                 @foreach ($orderedButtons as $name)
                     {{ $$name }}
                 @endforeach

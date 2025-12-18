@@ -58,7 +58,7 @@
     }
 @endphp
 
-<{{ $tag }} {{ $attributes->twMerge($classes, $variantClasses, $sizeClasses) }}>
+<{{ $tag }} {{ $attributes->cn($classes, $variantClasses, $sizeClasses) }}>
     @if ($loading)
         <div
             class="group-data-loading/button:animate-spin absolute inset-0 flex items-center justify-center opacity-0"

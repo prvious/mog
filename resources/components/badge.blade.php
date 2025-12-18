@@ -18,6 +18,6 @@
 
 <{{ $tag }}
     data-slot="badge"
-    {{ $attributes->twMerge($defaultClasses, $variantClasses) }}>
+    {{ $attributes->cn($defaultClasses, $variantClasses) }}>
     {{ $slot }}
 </{{ $tag }}>

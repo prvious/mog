@@ -10,7 +10,7 @@
     };
 
     $attributes = $attributes
-        ->twMerge('flex shrink-0 items-center justify-center gap-2 group-has-[[data-slot=item-description]]/item:self-start [&_svg]:pointer-events-none group-has-[[data-slot=item-description]]/item:translate-y-0.5', $variantClasses)
+        ->cn('flex shrink-0 items-center justify-center gap-2 group-has-[[data-slot=item-description]]/item:self-start [&_svg]:pointer-events-none group-has-[[data-slot=item-description]]/item:translate-y-0.5', $variantClasses)
         ->merge([
             'data-slot' => 'item-media',
         ]);

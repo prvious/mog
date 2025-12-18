@@ -43,7 +43,7 @@
 
     <div
         {{
-            $attributes->twMerge(
+            $attributes->cn(
                 'z-50 bg-popover text-popover-foreground rounded-md border shadow-md relative min-w-[8rem] overflow-y-auto overflow-x-hidden p-1 flex flex-col outline-none',
             )
         }}
@@ -69,7 +69,7 @@
                     data: @js($option->attributes->get('value') ?? (string) $option),
                 }"
                 {{
-                    $option->attributes->twMerge(
+                    $option->attributes->cn(
                         "group/select-item focus:bg-accent hover:bg-accent hover:text-accent-foreground focus:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
                     )
                 }}>
