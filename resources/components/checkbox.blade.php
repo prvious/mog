@@ -9,16 +9,22 @@
     x-on:click="value = !value"
     x-modelable="value"
     :data-state="value ? 'checked' : 'unchecked'"
+    data-slot="checkbox"
     role="checkbox"
     type="button"
     @checked($checked)
     @disabled($disabled)
-    {{ $attributes->twMerge('peer relative h-4 w-4 shrink-0 rounded-xs border border-primary shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 text-transparent data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground') }}>
+    {{
+        $attributes->twMerge(
+            'peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50',
+        )
+    }}>
     <span
         @disabled($disabled)
         :data-state="value ? 'checked' : 'unchecked'"
-        class="pointer-events-none flex items-center justify-center text-current">
-        @svg('mog-check', 'h-4 w-4')
+        data-slot="checkbox-indicator"
+        class="grid place-content-center text-current transition-none">
+        @svg('mog-check', 'size-3.5')
     </span>
 
     <input
