@@ -1,16 +1,23 @@
 @props([
     'variant' => 'default',
+    'asLink' => false,
 ])
 
 @php
     $variantClasses = match ($variant) {
-        'destructive' => 'bg-destructive text-destructive-foreground hover:bg-destructive/80 border-transparent shadow',
-        'outline' => 'text-foreground',
-        'secondary' => 'bg-secondary text-secondary-foreground hover:bg-secondary/80 border-transparent',
-        default => 'bg-primary text-primary-foreground hover:bg-primary/80 border-transparent shadow',
+        'secondary' => 'bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 border-transparent',
+        'destructive' => 'bg-destructive [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 border-transparent text-white',
+        'outline' => 'text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
+        default => 'bg-primary text-primary-foreground [a&]:hover:bg-primary/90 border-transparent',
     };
 
-    $defaultClasses = 'focus:ring-ring inline-flex items-center rounded-md border px-3 py-1 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2';
+    $defaultClasses = 'focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden whitespace-nowrap rounded-full border px-2 py-0.5 text-xs font-medium transition-[color,box-shadow] focus-visible:ring-[3px] [&>svg]:pointer-events-none [&>svg]:size-3';
+
+    $tag = $asLink ? 'a' : 'span';
 @endphp
 
-<div {{ $attributes->twMerge($defaultClasses, $variantClasses) }}>{{ $slot }}</div>
+<{{ $tag }}
+    data-slot="badge"
+    {{ $attributes->twMerge($defaultClasses, $variantClasses) }}>
+    {{ $slot }}
+</{{ $tag }}>
