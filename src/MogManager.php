@@ -5,6 +5,7 @@ namespace Mog;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Livewire\Drawer\Utils;
+use TailwindMerge\Contracts\TailwindMergeContract;
 
 class MogManager
 {
@@ -48,6 +49,14 @@ class MogManager
     public function markOverlayAsRendered(): void
     {
         $this->overlayRendered = true;
+    }
+
+    /**
+     * @param  array<array-key, string|array<array-key, string>>  ...$args
+     */
+    public function cn(...$args): string
+    {
+        return app(TailwindMergeContract::class)->merge(...$args);
     }
 
     public function registerBladeDirectives(): void
@@ -128,9 +137,15 @@ class MogManager
      */
     public function script(): string
     {
-        $manifest = json_decode(file_get_contents(__DIR__.'/../dist/manifest.json'), true);
-        $version = $manifest['/mog.js'] ?? '';
+        $version = $this->manifestVersion('/mog.js');
 
         return '<script src="/mog/mog.js?id='.$version.'" data-navigate-once defer></script>';
+    }
+
+    private function manifestVersion(string $file): string
+    {
+        $manifest = json_decode(file_get_contents(__DIR__.'/../dist/manifest.json'), true);
+
+        return $manifest[$file] ?? '';
     }
 }

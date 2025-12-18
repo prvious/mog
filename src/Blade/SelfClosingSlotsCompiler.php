@@ -1,6 +1,6 @@
 <?php
 
-namespace Mog;
+namespace Mog\Blade;
 
 use Illuminate\Support\Str;
 use Illuminate\View\Compilers\ComponentTagCompiler;
