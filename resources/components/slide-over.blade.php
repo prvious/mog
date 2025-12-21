@@ -70,6 +70,7 @@
             }
         })
     "
+    data-ignore
     x-modelable="slideOver"
     x-on:mog::dialog-open.document="
         if ($event.detail.id === id) {
@@ -82,7 +83,9 @@
         }
     "
     @if(filled($x_model)) x-model="{{ $x_model }}" @endif>
-    <div {{ $trigger->attributes->merge(['x-on:click' => '$mog.dialog.open(id)']) }}>
+    <div
+        data-ignore-trigger
+        {{ $trigger->attributes->merge(['x-on:click' => '$mog.dialog.open(id)']) }}>
         {{ $trigger }}
     </div>
 

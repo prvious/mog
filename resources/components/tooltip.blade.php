@@ -15,10 +15,12 @@
 @endphp
 
 <div
+    data-ignore
     data-slot="tooltip"
     x-data="{
         open: @js($open ?? false),
     }"
+    :id="$id('tooltip')"
     x-modelable="open"
     x-on:pointermove="
         if ($event.pointerType === 'touch') return
@@ -34,12 +36,16 @@
     x-on:focus="open = true"
     x-on:blur="open = false"
     x-on:click="open = false"
-    {{ $attributes->cn('inline-flex ') }}>
+    {{ $attributes->cn('contents') }}>
+    {{-- teleport trigger right before the tooltip wrapper --}}
+
     <div
         x-ref="trigger"
+        data-ignore-trigger
         data-slot="tooltip-trigger">
         {{ $trigger }}
     </div>
+
     <div
         x-cloak
         x-show="open"

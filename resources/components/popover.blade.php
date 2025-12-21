@@ -9,6 +9,7 @@
 ])
 
 <div
+    data-ignore
     data-slot="popover"
     x-data="{
         open: @js($open ?? false),
@@ -18,9 +19,11 @@
     x-on:keydown.escape="open = false"
     {{ $attributes->cn('inline-flex') }}>
     <div
-        {{ $trigger->attributes->cn('cursor-pointer') }}
+        data-ignore-trigger
+        data-slot="popover-trigger"
+        x-ref="trigger"
         x-on:click="open = !open"
-        x-ref="trigger">
+        {{ $trigger->attributes->cn('cursor-pointer') }}>
         {{ $trigger }}
     </div>
 

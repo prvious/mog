@@ -63,6 +63,7 @@
             }
         })
     "
+    data-ignore
     x-modelable="dialog"
     x-on:mog::dialog-open.document="
         if ($event.detail.id === id) {
