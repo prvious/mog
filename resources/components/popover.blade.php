@@ -3,7 +3,7 @@
 @props([
     'content' => app(ComponentSlot::class),
     'trigger' => app(ComponentSlot::class),
-    'align' => 'center',
+    'align' => 'top',
     'offset' => '5',
     'open' => false,
 ])
@@ -17,13 +17,13 @@
     x-modelable="open"
     x-on:click.away="open = false"
     x-on:keydown.escape="open = false"
-    {{ $attributes->cn('inline-flex') }}>
+    {{ $attributes->cn('contents') }}>
     <div
         data-ignore-trigger
         data-slot="popover-trigger"
         x-ref="trigger"
         x-on:click="open = !open"
-        {{ $trigger->attributes->cn('cursor-pointer') }}>
+        {{ $trigger->attributes->cn('contents') }}>
         {{ $trigger }}
     </div>
 

@@ -4,13 +4,17 @@
     {{
         $attributes->cn(
             'group/input-group border-input dark:bg-input/30 relative flex w-full items-center rounded-md border shadow-xs transition-[color,box-shadow] outline-none',
-            'h-9 min-w-0 has-[>textarea]:h-auto',
+            'h-9 min-w-0 has-[>textarea]:h-auto has-[>[data-ignore]>[data-ignore-trigger]>textarea]:h-auto',
 
             // Variants based on alignment.
             'has-[>[data-align=inline-start]]:[&>input]:pl-2',
+            'has-[>[data-ignore]>[data-ignore-trigger]>[data-align=inline-start]]:[&>[data-ignore]>[data-ignore-trigger]>input]:pl-2',
             'has-[>[data-align=inline-end]]:[&>input]:pr-2',
+            'has-[>[data-ignore]>[data-ignore-trigger]>[data-align=inline-end]]:[&>[data-ignore]>[data-ignore-trigger]>input]:pr-2',
             'has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-start]]:[&>input]:pb-3',
+            'has-[>[data-ignore]>[data-ignore-trigger]>[data-align=block-start]]:h-auto has-[>[data-ignore]>[data-ignore-trigger]>[data-align=block-start]]:flex-col has-[>[data-ignore]>[data-ignore-trigger]>[data-align=block-start]]:[&>[data-ignore]>[data-ignore-trigger]>input]:pb-3',
             'has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3',
+            'has-[>[data-ignore]>[data-ignore-trigger]>[data-align=block-end]]:h-auto has-[>[data-ignore]>[data-ignore-trigger]>[data-align=block-end]]:flex-col has-[>[data-ignore]>[data-ignore-trigger]>[data-align=block-end]]:[&>[data-ignore]>[data-ignore-trigger]>input]:pt-3',
 
             // Focus state.
             'has-[[data-slot=input-group-control]:focus-visible]:border-ring has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 has-[[data-slot=input-group-control]:focus-visible]:ring-[3px]',
