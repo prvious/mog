@@ -2,3 +2,6 @@
 /build/
 /node_modules/
 .pnpm-store
+/tests/Browser/screenshots
+/tests/Browser/snapshots/diffs
+/tests/assets

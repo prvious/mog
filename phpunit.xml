@@ -23,4 +23,13 @@
             <directory suffix=".php">./src</directory>
         </include>
     </source>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_DEBUG" value="true"/>
+        <env name="CACHE_STORE" value="array"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="BROWSER_HEADLESS" value="true"/>
+        <env name="BROWSER_DEBUG" value="false"/>
+    </php>
 </phpunit>
