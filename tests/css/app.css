@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@import '../../resources/css/tailwind.css';
+@source '../../resources/components/**/*.blade.php';
+@source '../../vendor/livewire/livewire/src/Features/SupportAttributes/views/**/*.blade.php';
+
+/* Themes */
+@import './theme.css';
+
+@source '../**/*.blade.php';

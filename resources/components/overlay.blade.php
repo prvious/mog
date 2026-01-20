@@ -24,7 +24,7 @@
     x-transition:enter="animate-in fade-in duration-300"
     x-transition:leave="animate-out fade-out duration-300"
     x-bind:data-state="overlay ? 'open' : 'closed'"
-    class="fade-out fixed inset-0 overflow-y-auto bg-black/75 data-[state=closed]:opacity-0 dark:bg-black/85"></div>
+    {{ $attributes->cn('fade-out fixed inset-0 overflow-y-auto bg-black/75 data-[state=closed]:opacity-0 dark:bg-black/85 z-1000') }}></div>
 
 {{-- Render the dialogs after the overlay so they appear above it without having to abuse z-index --}}
 <div
