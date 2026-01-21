@@ -146,15 +146,15 @@ Groups related options with an optional label.
 <x-select placeholder="Select status">
     <x-slot:options>
         <option value="active">
-            @svg('mog-check-circle', 'text-green-500')
+            @svg('lucide-check-circle', 'text-green-500')
             Active
         </option>
         <option value="pending">
-            @svg('mog-clock', 'text-yellow-500')
+            @svg('lucide-clock', 'text-yellow-500')
             Pending
         </option>
         <option value="inactive">
-            @svg('mog-x-circle', 'text-red-500')
+            @svg('lucide-x-circle', 'text-red-500')
             Inactive
         </option>
     </x-slot:options>

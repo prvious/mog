@@ -24,7 +24,7 @@
         :data-state="value ? 'checked' : 'unchecked'"
         data-slot="checkbox-indicator"
         class="grid place-content-center text-current transition-none">
-        @svg('mog-check', 'size-3.5')
+        @svg('lucide-check', 'size-3.5')
     </span>
 
     <input

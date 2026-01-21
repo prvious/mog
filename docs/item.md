@@ -322,7 +322,7 @@ Horizontal separator between items, wraps the `<x-separator>` component.
 <x-item-group>
     <x-item>
         <x-item-media variant="icon">
-            @svg('mog-bell')
+            @svg('lucide-bell')
         </x-item-media>
 
         <x-item-content>
@@ -330,14 +330,14 @@ Horizontal separator between items, wraps the `<x-separator>` component.
             <x-item-description>Manage your notification preferences</x-item-description>
         </x-item-content>
 
-        @svg('mog-chevron-right', 'text-muted-foreground size-4')
+        @svg('lucide-chevron-right', 'text-muted-foreground size-4')
     </x-item>
 
     <x-item-separator />
 
     <x-item>
         <x-item-media variant="icon">
-            @svg('mog-shield')
+            @svg('lucide-shield')
         </x-item-media>
 
         <x-item-content>
@@ -345,7 +345,7 @@ Horizontal separator between items, wraps the `<x-separator>` component.
             <x-item-description>Control your privacy settings</x-item-description>
         </x-item-content>
 
-        @svg('mog-chevron-right', 'text-muted-foreground size-4')
+        @svg('lucide-chevron-right', 'text-muted-foreground size-4')
     </x-item>
 </x-item-group>
 ```
@@ -381,7 +381,7 @@ Horizontal separator between items, wraps the `<x-separator>` component.
             <x-button
                 variant="outline"
                 size="sm">
-                @svg('mog-download')
+                @svg('lucide-download')
                 Export
             </x-button>
         </x-item-actions>
@@ -456,19 +456,19 @@ Horizontal separator between items, wraps the `<x-separator>` component.
                     <x-button
                         variant="ghost"
                         size="sm">
-                        @svg('mog-heart')
+                        @svg('lucide-heart')
                         12
                     </x-button>
                     <x-button
                         variant="ghost"
                         size="sm">
-                        @svg('mog-message-circle')
+                        @svg('lucide-message-circle')
                         3
                     </x-button>
                     <x-button
                         variant="ghost"
                         size="sm">
-                        @svg('mog-share')
+                        @svg('lucide-share')
                     </x-button>
                 </x-item-actions>
             </x-item-footer>
@@ -497,19 +497,19 @@ Horizontal separator between items, wraps the `<x-separator>` component.
                     <x-button
                         variant="ghost"
                         size="sm">
-                        @svg('mog-heart')
+                        @svg('lucide-heart')
                         24
                     </x-button>
                     <x-button
                         variant="ghost"
                         size="sm">
-                        @svg('mog-message-circle')
+                        @svg('lucide-message-circle')
                         8
                     </x-button>
                     <x-button
                         variant="ghost"
                         size="sm">
-                        @svg('mog-share')
+                        @svg('lucide-share')
                     </x-button>
                 </x-item-actions>
             </x-item-footer>
@@ -524,7 +524,7 @@ Horizontal separator between items, wraps the `<x-separator>` component.
 <x-item-group>
     <x-item>
         <x-item-media variant="icon">
-            @svg('mog-palette')
+            @svg('lucide-palette')
         </x-item-media>
 
         <x-item-content>
@@ -543,7 +543,7 @@ Horizontal separator between items, wraps the `<x-separator>` component.
 
     <x-item>
         <x-item-media variant="icon">
-            @svg('mog-globe')
+            @svg('lucide-globe')
         </x-item-media>
 
         <x-item-content>
@@ -562,7 +562,7 @@ Horizontal separator between items, wraps the `<x-separator>` component.
 
     <x-item>
         <x-item-media variant="icon">
-            @svg('mog-bell')
+            @svg('lucide-bell')
         </x-item-media>
 
         <x-item-content>
@@ -600,10 +600,10 @@ Horizontal separator between items, wraps the `<x-separator>` component.
             <x-button
                 variant="outline"
                 size="icon-sm">
-                @svg('mog-heart')
+                @svg('lucide-heart')
             </x-button>
             <x-button size="sm">
-                @svg('mog-shopping-cart')
+                @svg('lucide-shopping-cart')
                 Add to Cart
             </x-button>
         </x-item-actions>
@@ -632,10 +632,10 @@ Horizontal separator between items, wraps the `<x-separator>` component.
             <x-button
                 variant="outline"
                 size="icon-sm">
-                @svg('mog-heart')
+                @svg('lucide-heart')
             </x-button>
             <x-button size="sm">
-                @svg('mog-shopping-cart')
+                @svg('lucide-shopping-cart')
                 Add to Cart
             </x-button>
         </x-item-actions>
@@ -651,7 +651,7 @@ Horizontal separator between items, wraps the `<x-separator>` component.
         tag="a"
         href="/profile">
         <x-item-media variant="icon">
-            @svg('mog-user')
+            @svg('lucide-user')
         </x-item-media>
 
         <x-item-content>
@@ -659,7 +659,7 @@ Horizontal separator between items, wraps the `<x-separator>` component.
             <x-item-description>View and edit your profile</x-item-description>
         </x-item-content>
 
-        @svg('mog-chevron-right', 'text-muted-foreground size-4')
+        @svg('lucide-chevron-right', 'text-muted-foreground size-4')
     </x-item>
 
     <x-item-separator />
@@ -668,7 +668,7 @@ Horizontal separator between items, wraps the `<x-separator>` component.
         tag="a"
         href="/settings">
         <x-item-media variant="icon">
-            @svg('mog-settings')
+            @svg('lucide-settings')
         </x-item-media>
 
         <x-item-content>
@@ -676,7 +676,7 @@ Horizontal separator between items, wraps the `<x-separator>` component.
             <x-item-description>Manage your account settings</x-item-description>
         </x-item-content>
 
-        @svg('mog-chevron-right', 'text-muted-foreground size-4')
+        @svg('lucide-chevron-right', 'text-muted-foreground size-4')
     </x-item>
 
     <x-item-separator />
@@ -685,7 +685,7 @@ Horizontal separator between items, wraps the `<x-separator>` component.
         tag="a"
         href="/help">
         <x-item-media variant="icon">
-            @svg('mog-help-circle')
+            @svg('lucide-help-circle')
         </x-item-media>
 
         <x-item-content>
@@ -693,7 +693,7 @@ Horizontal separator between items, wraps the `<x-separator>` component.
             <x-item-description>Get help and support</x-item-description>
         </x-item-content>
 
-        @svg('mog-chevron-right', 'text-muted-foreground size-4')
+        @svg('lucide-chevron-right', 'text-muted-foreground size-4')
     </x-item>
 </x-item-group>
 ```
@@ -976,7 +976,7 @@ Items work seamlessly with Livewire for dynamic interactions:
             </x-item-content>
 
             @if ($selectedOption === $option->id)
-                @svg('mog-check', 'text-primary size-5')
+                @svg('lucide-check', 'text-primary size-5')
             @endif
         </x-item>
 
@@ -1024,7 +1024,7 @@ Provide descriptive labels for interactive elements:
     tag="button"
     aria-label="Edit profile settings">
     <x-item-media variant="icon">
-        @svg('mog-edit')
+        @svg('lucide-edit')
     </x-item-media>
     <x-item-content>
         <x-item-title>Edit Profile</x-item-title>
@@ -1085,7 +1085,7 @@ All item components include dark mode support through Tailwind's dark mode class
                 <x-item-description>{{ $contact->email }}</x-item-description>
             </x-item-content>
 
-            @svg('mog-chevron-right', 'text-muted-foreground size-4')
+            @svg('lucide-chevron-right', 'text-muted-foreground size-4')
         </x-item>
 
         @if (! $loop->last)

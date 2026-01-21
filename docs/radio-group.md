@@ -189,7 +189,7 @@ Individual radio button within a group.
     <x-field orientation="horizontal">
         <x-field-label>
             <x-radio-group-item value="light" />
-            @svg('mog-sun')
+            @svg('lucide-sun')
             Light Mode
         </x-field-label>
     </x-field>
@@ -197,7 +197,7 @@ Individual radio button within a group.
     <x-field orientation="horizontal">
         <x-field-label>
             <x-radio-group-item value="dark" />
-            @svg('mog-moon')
+            @svg('lucide-moon')
             Dark Mode
         </x-field-label>
     </x-field>
@@ -205,7 +205,7 @@ Individual radio button within a group.
     <x-field orientation="horizontal">
         <x-field-label>
             <x-radio-group-item value="system" />
-            @svg('mog-monitor')
+            @svg('lucide-monitor')
             System Default
         </x-field-label>
     </x-field>
@@ -403,7 +403,7 @@ Radio groups have `tabindex="0"` and `outline: none` for proper keyboard focus m
         <x-field orientation="horizontal">
             <x-field-label>
                 <x-radio-group-item value="card" />
-                @svg('mog-credit-card')
+                @svg('lucide-credit-card')
                 Credit Card
             </x-field-label>
         </x-field>
@@ -411,7 +411,7 @@ Radio groups have `tabindex="0"` and `outline: none` for proper keyboard focus m
         <x-field orientation="horizontal">
             <x-field-label>
                 <x-radio-group-item value="paypal" />
-                @svg('mog-paypal')
+                @svg('lucide-paypal')
                 PayPal
             </x-field-label>
         </x-field>
@@ -419,7 +419,7 @@ Radio groups have `tabindex="0"` and `outline: none` for proper keyboard focus m
         <x-field orientation="horizontal">
             <x-field-label>
                 <x-radio-group-item value="bank" />
-                @svg('mog-bank')
+                @svg('lucide-bank')
                 Bank Transfer
             </x-field-label>
         </x-field>

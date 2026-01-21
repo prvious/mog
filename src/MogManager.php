@@ -5,7 +5,7 @@ namespace Mog;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Livewire\Drawer\Utils;
-use TailwindMerge\Contracts\TailwindMergeContract;
+use TalesFromADev\TailwindMerge\TailwindMergeInterface;
 
 class MogManager
 {
@@ -56,7 +56,7 @@ class MogManager
      */
     public function cn(...$args): string
     {
-        return app(TailwindMergeContract::class)->merge(...$args);
+        return app(TailwindMergeInterface::class)->merge(...$args);
     }
 
     public function registerBladeDirectives(): void

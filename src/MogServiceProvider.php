@@ -2,7 +2,6 @@
 
 namespace Mog;
 
-use BladeUI\Icons\Factory as BladeIconFactory;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
@@ -11,8 +10,8 @@ use Illuminate\View\Factory as ViewFactory;
 use Mog\Blade\ArraySlotsCompiler;
 use Mog\Blade\CustomCompiler;
 use Mog\Blade\SelfClosingSlotsCompiler;
-use TailwindMerge\Contracts\TailwindMergeContract;
-use TailwindMerge\TailwindMerge;
+use TalesFromADev\TailwindMerge\TailwindMerge;
+use TalesFromADev\TailwindMerge\TailwindMergeInterface;
 
 class MogServiceProvider extends ServiceProvider
 {
@@ -47,39 +46,24 @@ class MogServiceProvider extends ServiceProvider
             $app->make(MogManager::class)->registerBladeDirectives();
         });
 
-        $this->callAfterResolving(BladeIconFactory::class, function (BladeIconFactory $factory): void {
-            $factory->add('mog', [
-                'path' => __DIR__.'/../resources/svg',
-                'prefix' => 'mog',
-            ]);
-        });
-
         app(MogManager::class)->bootScriptRoute();
     }
 
     private function registerTailwind(): void
     {
         $this->app->singleton(
-            TailwindMergeContract::class,
-            static fn (): TailwindMerge => TailwindMerge::factory()->withConfiguration(['prefix' => null])->make(),
+            TailwindMergeInterface::class,
+            static fn (): TailwindMerge => new TailwindMerge,
         );
-
-        $this->app->alias(TailwindMergeContract::class, 'tailwind-merge');
-        $this->app->alias(TailwindMergeContract::class, TailwindMerge::class);
     }
 
     private function bootTailwind(): void
     {
         ComponentAttributeBag::macro('cn', function (...$args): ComponentAttributeBag {
             /** @var ComponentAttributeBag $this */
-            $this->offsetSet('class', resolve(TailwindMergeContract::class)->merge($args, ($this->get('class', ''))));
+            $this->offsetSet('class', app(TailwindMergeInterface::class)->merge($args, $this->get('class', '')));
 
             return $this;
-        });
-
-        ComponentAttributeBag::macro('withoutCnClasses', function (): ComponentAttributeBag {
-            /** @var ComponentAttributeBag $this */
-            return $this->whereDoesntStartWith('class:');
         });
     }
 
@@ -91,8 +75,7 @@ class MogServiceProvider extends ServiceProvider
         return [
             MogManager::class,
             TailwindMerge::class,
-            TailwindMergeContract::class,
-            'tailwind-merge',
+            TailwindMergeInterface::class,
         ];
     }
 }

@@ -64,7 +64,7 @@
             data-loading-indicator
             data-slot="loading-indicator"
             class="group-data-loading/button:animate-spin absolute inset-0 flex items-center justify-center opacity-0">
-            @svg('mog-loader-2', $loaderClasses)
+            @svg('lucide-loader-2', $loaderClasses)
         </div>
     @endif
 

@@ -34,13 +34,13 @@
             <h2 class="text-2xl font-semibold">Icon Sizes</h2>
             <div class="flex flex-wrap items-center gap-4">
                 <x-mog::button size="icon-sm" dusk="size-icon-sm">
-                    @svg('mog-plus', 'size-4')
+                    @svg('lucide-plus', 'size-4')
                 </x-mog::button>
                 <x-mog::button size="icon" dusk="size-icon">
-                    @svg('mog-plus', 'size-4')
+                    @svg('lucide-plus', 'size-4')
                 </x-mog::button>
                 <x-mog::button size="icon-lg" dusk="size-icon-lg">
-                    @svg('mog-plus', 'size-4')
+                    @svg('lucide-plus', 'size-4')
                 </x-mog::button>
             </div>
         </section>
@@ -50,12 +50,12 @@
             <h2 class="text-2xl font-semibold">With Icons</h2>
             <div class="flex flex-wrap gap-4">
                 <x-mog::button dusk="with-icon-left">
-                    @svg('mog-plus', 'size-4')
+                    @svg('lucide-plus', 'size-4')
                     Add Item
                 </x-mog::button>
                 <x-mog::button variant="destructive" dusk="with-icon-right">
                     Delete
-                    @svg('mog-trash', 'size-4')
+                    @svg('lucide-trash', 'size-4')
                 </x-mog::button>
             </div>
         </section>
@@ -95,7 +95,7 @@
                         data-slot="loading-indicator"
                         :class="loading ? 'animate-spin' : ''"
                         class="absolute inset-0 flex items-center justify-center opacity-0">
-                        @svg('mog-loader-2', 'size-5 p-0.5')
+                        @svg('lucide-loader-2', 'size-5 p-0.5')
                     </div>
                     <span data-slot="button-content" class="inline-flex items-center justify-center gap-2 whitespace-nowrap">
                         Toggle Loading

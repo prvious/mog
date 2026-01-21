@@ -712,7 +712,7 @@ class ProductList extends Component { public $category = null; public $search = 
 ```blade
 {{-- Good: Responsive labels --}}
 <x-button>
-    @svg('mog-chevron-left')
+    @svg('lucide-chevron-left')
     <span class="hidden sm:block">Previous</span>
 </x-button>
 

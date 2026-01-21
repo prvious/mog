@@ -363,7 +363,7 @@ data-orientation="horizontal|vertical"
 ```blade
 <x-field>
     <div class="flex items-center gap-2">
-        @svg('mog-volume-2', 'size-4')
+        @svg('lucide-volume-2', 'size-4')
         <x-slider
             min="0"
             max="100"

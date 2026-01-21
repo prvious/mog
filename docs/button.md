@@ -125,17 +125,17 @@ Icons are automatically sized and styled when placed inside a button:
 ```blade
 {{-- Default icon size --}}
 <x-button size="icon">
-    @svg('mog-search')
+    @svg('lucide-search')
 </x-button>
 
 {{-- Small icon button --}}
 <x-button size="icon-sm">
-    @svg('mog-plus')
+    @svg('lucide-plus')
 </x-button>
 
 {{-- Large icon button --}}
 <x-button size="icon-lg">
-    @svg('mog-settings')
+    @svg('lucide-settings')
 </x-button>
 ```
 
@@ -144,21 +144,21 @@ Icons are automatically sized and styled when placed inside a button:
 ```blade
 {{-- Icon before text --}}
 <x-button>
-    @svg('mog-download')
+    @svg('lucide-download')
     Download
 </x-button>
 
 {{-- Icon after text --}}
 <x-button>
     Continue
-    @svg('mog-arrow-right')
+    @svg('lucide-arrow-right')
 </x-button>
 
 {{-- Icons on both sides --}}
 <x-button>
-    @svg('mog-mail')
+    @svg('lucide-mail')
     Send Email
-    @svg('mog-send')
+    @svg('lucide-send')
 </x-button>
 ```
 
@@ -217,7 +217,7 @@ Icons are automatically sized and styled when placed inside a button:
     href="https://example.com"
     target="_blank">
     Visit Website
-    @svg('mog-external-link')
+    @svg('lucide-external-link')
 </x-button>
 
 {{-- Link with variant --}}
@@ -240,7 +240,7 @@ Icons are automatically sized and styled when placed inside a button:
 
 {{-- Disabled with explanation --}}
 <x-button disabled>
-    @svg('mog-lock')
+    @svg('lucide-lock')
     Locked Feature
 </x-button>
 ```
@@ -253,7 +253,7 @@ Icons are automatically sized and styled when placed inside a button:
     variant="destructive"
     wire:click="deleteAccount"
     wire:confirm="Are you sure you want to delete your account? This action cannot be undone.">
-    @svg('mog-trash')
+    @svg('lucide-trash')
     Delete Account
 </x-button>
 
@@ -352,7 +352,7 @@ The component automatically handles loading states, but you can control them man
 ```blade
 {{-- Good: Icon with text --}}
 <x-button>
-    @svg('mog-save')
+    @svg('lucide-save')
     Save
 </x-button>
 
@@ -360,12 +360,12 @@ The component automatically handles loading states, but you can control them man
 <x-button
     size="icon"
     aria-label="Search">
-    @svg('mog-search')
+    @svg('lucide-search')
 </x-button>
 
 {{-- Avoid: Icon-only without aria-label --}}
 <x-button size="icon">
-    @svg('mog-settings')
+    @svg('lucide-settings')
 </x-button>
 ```
 
@@ -459,24 +459,24 @@ All button variants include dark mode color adjustments:
     <x-button
         variant="ghost"
         size="icon">
-        @svg('mog-arrow-left')
+        @svg('lucide-arrow-left')
     </x-button>
 
     <div class="flex gap-2">
         <x-button
             variant="ghost"
             size="icon">
-            @svg('mog-share')
+            @svg('lucide-share')
         </x-button>
         <x-button
             variant="ghost"
             size="icon">
-            @svg('mog-heart')
+            @svg('lucide-heart')
         </x-button>
         <x-button
             variant="ghost"
             size="icon">
-            @svg('mog-more-vertical')
+            @svg('lucide-more-vertical')
         </x-button>
     </div>
 </div>

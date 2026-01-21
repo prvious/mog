@@ -119,25 +119,25 @@ A visual separator between buttons or button groups.
 ```blade
 <x-button-group>
     <x-button variant="outline">
-        @svg('mog-bold')
+        @svg('lucide-bold')
     </x-button>
     <x-button variant="outline">
-        @svg('mog-italic')
+        @svg('lucide-italic')
     </x-button>
     <x-button variant="outline">
-        @svg('mog-underline')
+        @svg('lucide-underline')
     </x-button>
 
     <x-button-separator />
 
     <x-button variant="outline">
-        @svg('mog-align-left')
+        @svg('lucide-align-left')
     </x-button>
     <x-button variant="outline">
-        @svg('mog-align-center')
+        @svg('lucide-align-center')
     </x-button>
     <x-button variant="outline">
-        @svg('mog-align-right')
+        @svg('lucide-align-right')
     </x-button>
 </x-button-group>
 ```
@@ -147,7 +147,7 @@ A visual separator between buttons or button groups.
 ```blade
 <x-button-group>
     <x-button-group-text>
-        @svg('mog-eye')
+        @svg('lucide-eye')
         View:
     </x-button-group-text>
     <x-button variant="outline">Grid</x-button>
@@ -172,7 +172,7 @@ A visual separator between buttons or button groups.
 <x-button-group>
     <x-button>Save</x-button>
     <x-button variant="outline">
-        @svg('mog-chevron-down')
+        @svg('lucide-chevron-down')
     </x-button>
 </x-button-group>
 
@@ -193,30 +193,17 @@ A visual separator between buttons or button groups.
         <x-button
             variant="outline"
             size="sm">
-            @svg('mog-bold')
+            @svg('lucide-bold')
         </x-button>
         <x-button
             variant="outline"
             size="sm">
-            @svg('mog-italic')
+            @svg('lucide-italic')
         </x-button>
         <x-button
             variant="outline"
             size="sm">
-            @svg('mog-underline')
-        </x-button>
-    </x-button-group>
-
-    <x-button-group>
-        <x-button
-            variant="outline"
-            size="sm">
-            @svg('mog-list')
-        </x-button>
-        <x-button
-            variant="outline"
-            size="sm">
-            @svg('mog-list-ordered')
+            @svg('lucide-underline')
         </x-button>
     </x-button-group>
 
@@ -224,12 +211,25 @@ A visual separator between buttons or button groups.
         <x-button
             variant="outline"
             size="sm">
-            @svg('mog-link')
+            @svg('lucide-list')
         </x-button>
         <x-button
             variant="outline"
             size="sm">
-            @svg('mog-image')
+            @svg('lucide-list-ordered')
+        </x-button>
+    </x-button-group>
+
+    <x-button-group>
+        <x-button
+            variant="outline"
+            size="sm">
+            @svg('lucide-link')
+        </x-button>
+        <x-button
+            variant="outline"
+            size="sm">
+            @svg('lucide-image')
         </x-button>
     </x-button-group>
 </div>
@@ -240,15 +240,15 @@ A visual separator between buttons or button groups.
 ```blade
 <x-button-group>
     <x-button variant="outline">
-        @svg('mog-download')
+        @svg('lucide-download')
         Download
     </x-button>
     <x-button variant="outline">
-        @svg('mog-share')
+        @svg('lucide-share')
         Share
     </x-button>
     <x-button variant="outline">
-        @svg('mog-printer')
+        @svg('lucide-printer')
         Print
     </x-button>
 </x-button-group>
@@ -272,13 +272,13 @@ A visual separator between buttons or button groups.
 ```blade
 <x-button-group>
     <x-button variant="outline">
-        @svg('mog-chevron-left')
+        @svg('lucide-chevron-left')
     </x-button>
 
     <x-button-group-text>Page 1 of 10</x-button-group-text>
 
     <x-button variant="outline">
-        @svg('mog-chevron-right')
+        @svg('lucide-chevron-right')
     </x-button>
 </x-button-group>
 ```
@@ -288,7 +288,7 @@ A visual separator between buttons or button groups.
 ```blade
 <x-button-group>
     <x-button variant="outline">
-        @svg('mog-filter')
+        @svg('lucide-filter')
         Filter
     </x-button>
 
@@ -340,7 +340,7 @@ Use the same `variant` and `size` for all buttons in a group:
 <x-button-group>
     <x-button>Primary Action</x-button>
     <x-button variant="outline">
-        @svg('mog-chevron-down')
+        @svg('lucide-chevron-down')
     </x-button>
 </x-button-group>
 ```
@@ -391,17 +391,17 @@ Provide clear labels or ARIA attributes for icon-only buttons:
     <x-button
         variant="outline"
         aria-label="Bold">
-        @svg('mog-bold')
+        @svg('lucide-bold')
     </x-button>
     <x-button
         variant="outline"
         aria-label="Italic">
-        @svg('mog-italic')
+        @svg('lucide-italic')
     </x-button>
     <x-button
         variant="outline"
         aria-label="Underline">
-        @svg('mog-underline')
+        @svg('lucide-underline')
     </x-button>
 </x-button-group>
 ```
@@ -500,7 +500,7 @@ Button groups can contain other button groups with automatic gap spacing:
     <x-button
         variant="outline"
         wire:click="showSaveOptions">
-        @svg('mog-chevron-down')
+        @svg('lucide-chevron-down')
     </x-button>
 </x-button-group>
 ```
@@ -538,12 +538,12 @@ Button groups can contain other button groups with automatic gap spacing:
         <x-button
             variant="outline"
             size="sm">
-            @svg('mog-undo')
+            @svg('lucide-undo')
         </x-button>
         <x-button
             variant="outline"
             size="sm">
-            @svg('mog-redo')
+            @svg('lucide-redo')
         </x-button>
     </x-button-group>
 
@@ -553,17 +553,17 @@ Button groups can contain other button groups with automatic gap spacing:
         <x-button
             variant="outline"
             size="sm">
-            @svg('mog-bold')
+            @svg('lucide-bold')
         </x-button>
         <x-button
             variant="outline"
             size="sm">
-            @svg('mog-italic')
+            @svg('lucide-italic')
         </x-button>
         <x-button
             variant="outline"
             size="sm">
-            @svg('mog-underline')
+            @svg('lucide-underline')
         </x-button>
     </x-button-group>
 </div>
@@ -576,7 +576,7 @@ Button groups can contain other button groups with automatic gap spacing:
     <x-button
         variant="outline"
         wire:click="decrement">
-        @svg('mog-minus')
+        @svg('lucide-minus')
     </x-button>
 
     <x-button-group-text>
@@ -586,7 +586,7 @@ Button groups can contain other button groups with automatic gap spacing:
     <x-button
         variant="outline"
         wire:click="increment">
-        @svg('mog-plus')
+        @svg('lucide-plus')
     </x-button>
 </x-button-group>
 ```

@@ -5,6 +5,7 @@ namespace Tests;
 use BladeUI\Icons\BladeIconsServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Livewire\LivewireServiceProvider;
+use MallardDuck\LucideIcons\BladeLucideIconsServiceProvider;
 use Mog\MogServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
@@ -20,6 +21,7 @@ abstract class TestCase extends BaseTestCase
     {
         return [
             BladeIconsServiceProvider::class,
+            BladeLucideIconsServiceProvider::class,
             MogServiceProvider::class,
             LivewireServiceProvider::class,
         ];

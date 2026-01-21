@@ -265,7 +265,7 @@ A button-style toggle for switching between states with optional visual content.
 
 ```blade
 <x-toggle>
-    @svg('mog-heart')
+    @svg('lucide-heart')
 </x-toggle>
 ```
 
@@ -274,11 +274,11 @@ A button-style toggle for switching between states with optional visual content.
 ```blade
 <x-toggle>
     <x-slot:off>
-        @svg('mog-volume-x')
+        @svg('lucide-volume-x')
         Unmuted
     </x-slot:off>
 
-    @svg('mog-volume-2')
+    @svg('lucide-volume-2')
     Muted
 </x-toggle>
 ```
@@ -295,19 +295,19 @@ A button-style toggle for switching between states with optional visual content.
 
 ```blade
 <x-toggle variant="outline">
-    @svg('mog-star')
+    @svg('lucide-star')
 </x-toggle>
 
 <x-toggle variant="secondary">
-    @svg('mog-bookmark')
+    @svg('lucide-bookmark')
 </x-toggle>
 
 <x-toggle variant="ghost">
-    @svg('mog-heart')
+    @svg('lucide-heart')
 </x-toggle>
 
 <x-toggle variant="destructive">
-    @svg('mog-trash')
+    @svg('lucide-trash')
 </x-toggle>
 ```
 
@@ -316,10 +316,10 @@ A button-style toggle for switching between states with optional visual content.
 ```blade
 <x-toggle wire:model="favorited">
     <x-slot:off>
-        @svg('mog-star')
+        @svg('lucide-star')
     </x-slot:off>
 
-    @svg('mog-star-filled')
+    @svg('lucide-star-filled')
 </x-toggle>
 ```
 
@@ -331,9 +331,9 @@ A button-style toggle for switching between states with optional visual content.
     wire:model="liked"
     variant="ghost">
     <x-slot:off>
-        @svg('mog-heart')
+        @svg('lucide-heart')
     </x-slot:off>
-    @svg('mog-heart-filled', 'text-red-500')
+    @svg('lucide-heart-filled', 'text-red-500')
 </x-toggle>
 
 {{-- Bookmark --}}
@@ -341,9 +341,9 @@ A button-style toggle for switching between states with optional visual content.
     wire:model="bookmarked"
     variant="ghost">
     <x-slot:off>
-        @svg('mog-bookmark')
+        @svg('lucide-bookmark')
     </x-slot:off>
-    @svg('mog-bookmark-filled')
+    @svg('lucide-bookmark-filled')
 </x-toggle>
 
 {{-- Visibility --}}
@@ -351,10 +351,10 @@ A button-style toggle for switching between states with optional visual content.
     wire:model="visible"
     size="sm">
     <x-slot:off>
-        @svg('mog-eye-off')
+        @svg('lucide-eye-off')
         Hidden
     </x-slot:off>
-    @svg('mog-eye')
+    @svg('lucide-eye')
     Visible
 </x-toggle>
 ```
@@ -367,19 +367,19 @@ A button-style toggle for switching between states with optional visual content.
         variant="outline"
         size="sm"
         wire:model="bold">
-        @svg('mog-bold')
+        @svg('lucide-bold')
     </x-toggle>
     <x-toggle
         variant="outline"
         size="sm"
         wire:model="italic">
-        @svg('mog-italic')
+        @svg('lucide-italic')
     </x-toggle>
     <x-toggle
         variant="outline"
         size="sm"
         wire:model="underline">
-        @svg('mog-underline')
+        @svg('lucide-underline')
     </x-toggle>
 </x-button-group>
 ```
@@ -428,7 +428,7 @@ A button-style toggle for switching between states with optional visual content.
 
 {{-- With aria-label for icon-only --}}
 <x-toggle aria-label="Add to favorites">
-    @svg('mog-star')
+    @svg('lucide-star')
 </x-toggle>
 ```
 
@@ -453,7 +453,7 @@ All three components support full keyboard interaction:
 
 {{-- Toggle: Interactive state with visual feedback --}}
 <x-toggle wire:model="favorited">
-    @svg('mog-star')
+    @svg('lucide-star')
 </x-toggle>
 ```
 
@@ -623,11 +623,11 @@ focus-visible:outline-none
     variant="ghost"
     size="sm">
     <x-slot:off>
-        @svg('mog-heart')
+        @svg('lucide-heart')
         <span>{{ $likeCount }}</span>
     </x-slot:off>
 
-    @svg('mog-heart-filled', 'text-red-500')
+    @svg('lucide-heart-filled', 'text-red-500')
     <span>{{ $likeCount }}</span>
 </x-toggle>
 ```
