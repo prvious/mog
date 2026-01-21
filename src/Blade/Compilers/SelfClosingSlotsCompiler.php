@@ -1,12 +1,16 @@
 <?php
 
-namespace Mog\Blade;
+namespace Mog\Blade\Compilers;
 
 use Illuminate\Support\Str;
-use Illuminate\View\Compilers\ComponentTagCompiler;
 use Override;
 
-class SelfClosingSlotsCompiler extends ComponentTagCompiler
+/**
+ * Handles self-closing slot syntax for more concise component definitions.
+ *
+ * Allows slots to be written as <x-slot:name /> instead of <x-slot:name></x-slot>.
+ */
+class SelfClosingSlotsCompiler extends BaseSlotCompiler
 {
     #[Override]
     public function compileSlots(string $value): string

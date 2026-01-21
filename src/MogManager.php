@@ -2,150 +2,80 @@
 
 namespace Mog;
 
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Route;
-use Livewire\Drawer\Utils;
+use Mog\Assets\ScriptAssetManager;
+use Mog\Theme\OverlayManager;
+use Mog\Utilities\AspectRatioParser;
 use TalesFromADev\TailwindMerge\TailwindMergeInterface;
 
+/**
+ * Core manager class for the Mog package.
+ *
+ * This class acts as a facade/coordinator that delegates to specialized services.
+ * It maintains backward compatibility while the actual logic lives in dedicated classes.
+ */
 class MogManager
 {
-    /**
-     * Indicates if the toaster has already been rendered.
-     */
-    private bool $overlayRendered = false;
+    public function __construct(
+        private TailwindMergeInterface $tailwindMerge,
+        private AspectRatioParser $aspectRatioParser,
+        private OverlayManager $overlayManager,
+        private ScriptAssetManager $scriptAssetManager
+    ) {}
 
     /**
      * Parse aspect ratio string into a float value.
      *
-     * Accepts formats like "16/9", "4/3", or numeric strings.
-     * Returns a float representing the aspect ratio.
+     * Delegates to AspectRatioParser service.
      *
      * @param  string|float|int  $ratio  The ratio to parse
      * @return float The parsed ratio as a float
      */
     public function parseAspectRatio(int|string|float $ratio): float
     {
-        if (is_string($ratio)) {
-            $parts = explode('/', trim($ratio));
-            if (count($parts) === 2 && is_numeric($parts[0]) && is_numeric($parts[1]) && (float) $parts[1] != 0) {
-                return floatval($parts[0]) / floatval($parts[1]);
-            }
-
-            if (is_numeric($ratio)) {
-                return floatval($ratio);
-            }
-
-            return 1.0; // fallback to 1:1 if invalid
-        }
-
-        return (float) $ratio;
-    }
-
-    public function overlayAlreadyRendered(): bool
-    {
-        return $this->overlayRendered;
-    }
-
-    public function markOverlayAsRendered(): void
-    {
-        $this->overlayRendered = true;
+        return $this->aspectRatioParser->parse($ratio);
     }
 
     /**
+     * Check if the overlay has already been rendered.
+     *
+     * Delegates to OverlayManager service.
+     */
+    public function overlayAlreadyRendered(): bool
+    {
+        return $this->overlayManager->hasRenderedOverlay();
+    }
+
+    /**
+     * Mark the overlay as rendered.
+     *
+     * Delegates to OverlayManager service.
+     */
+    public function markOverlayAsRendered(): void
+    {
+        $this->overlayManager->setOverlayRendered();
+    }
+
+    /**
+     * Merge CSS classes using TailwindMerge.
+     *
+     * Intelligently merges Tailwind CSS classes, handling conflicts.
+     *
      * @param  array<array-key, string|array<array-key, string>>  ...$args
      */
     public function cn(...$args): string
     {
-        return app(TailwindMergeInterface::class)->merge(...$args);
-    }
-
-    public function registerBladeDirectives(): void
-    {
-        Blade::directive('mog', function (string $expression) {
-            return <<<'HTML'
-                <style>
-                    :root.dark {
-                        color-scheme: dark;
-                    }
-                </style>
-
-                <script>
-                    window.Mog = {
-                        get theme() {
-                            return window.localStorage.getItem('mog::paint') || 'system'
-                        },
-
-                        get coat() {
-                            return this.theme;
-                        },
-
-                        paint(theme) {
-                            let applyDark = () => document.documentElement.classList.add('dark');
-                            let applyLight = () => document.documentElement.classList.remove('dark');
-                            let setTheme = (theme) => window.localStorage.setItem('mog::paint', theme);
-
-                            if (theme === 'system') {
-                                let scheme = window.matchMedia('(prefers-color-scheme: dark)');
-                                window.localStorage.removeItem('mog::paint');
-                                scheme.matches ? applyDark() : applyLight();
-                            } else if (theme === 'dark') {
-                                setTheme('dark');
-                                applyDark();
-                            } else if (theme === 'light') {
-                                setTheme('light');
-                                applyLight();
-                            }
-                        }
-                    }
-
-                    document.addEventListener('livewire:navigated', () => {
-                        window.Mog.paint(window.localStorage.getItem('mog::paint') || 'system')
-                    })
-
-                    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-                        window.Mog.paint(window.localStorage.getItem('mog::paint') || 'system')
-                    })
-
-                    window.Mog.paint(window.localStorage.getItem('mog::paint') || 'system')
-                </script>
-
-                <?php app('livewire')->forceAssetInjection(); ?>
-
-                {!! app('mog')->script() !!}
-            HTML;
-        });
-    }
-
-    public function bootScriptRoute(): void
-    {
-        if (config('app.debug')) {
-            $file = 'mog.js';
-        } else {
-            $file = 'mog.min.js';
-        }
-
-        Route::get('mog/mog.js', fn () => Utils::pretendResponseIsFile(__DIR__.'/../dist/'.$file));
+        return $this->tailwindMerge->merge(...$args);
     }
 
     /**
      * Generate a script tag for the Mog JavaScript file.
      *
-     * Returns an HTML script tag that loads the Mog JavaScript file
-     * with cache-busting via version query string from manifest.json.
+     * Delegates to ScriptAssetManager service.
      *
      * @return string The complete script tag with attributes
      */
     public function script(): string
     {
-        $version = $this->manifestVersion('/mog.js');
-
-        return '<script src="/mog/mog.js?id='.$version.'" data-navigate-once defer></script>';
-    }
-
-    private function manifestVersion(string $file): string
-    {
-        $manifest = json_decode(file_get_contents(__DIR__.'/../dist/manifest.json'), true);
-
-        return $manifest[$file] ?? '';
+        return $this->scriptAssetManager->scriptTag();
     }
 }

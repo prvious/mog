@@ -1,13 +1,16 @@
 <?php
 
-namespace Mog\Blade;
+namespace Mog\Blade\Compilers;
 
 use Illuminate\Support\Str;
-use Illuminate\View\Compilers\ComponentTagCompiler;
 use Override;
 
-// Transforms array slots syntax into @arraySlot() directives.
-class ArraySlotsCompiler extends ComponentTagCompiler
+/**
+ * Transforms array slots syntax into @arraySlot() directives.
+ *
+ * Converts <x-slot:[name]> syntax to @arraySlot('[name]') directive calls.
+ */
+class ArraySlotsCompiler extends BaseSlotCompiler
 {
     #[Override]
     public function compile($value)

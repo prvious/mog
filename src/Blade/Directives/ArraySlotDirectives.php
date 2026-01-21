@@ -1,39 +1,54 @@
 <?php
 
-namespace Mog\Blade;
+namespace Mog\Blade\Directives;
 
 use Illuminate\Support\Str;
 use Illuminate\View\ComponentSlot;
 use Illuminate\View\Concerns\ManagesComponents;
 
-class CustomCompiler
+class ArraySlotDirectives
 {
     use ManagesComponents;
 
+    /**
+     * Compile the @arraySlot directive.
+     */
     public static function compileArraySlot(string $expression): string
     {
         return "<?php \$__env->arraySlot({$expression}); ?>";
     }
 
+    /**
+     * Compile the @endArraySlot directive.
+     */
     public static function compileEndArraySlot(string $expression): string
     {
         return '<?php $__env->endArraySlot(); ?>';
     }
 
-    public static function compileArraySlotDirective()
+    /**
+     * Create the arraySlot View macro closure.
+     *
+     * This handles the runtime behavior of array slots when rendering.
+     */
+    public static function makeArraySlotMacro(): \Closure
     {
         return function ($name, $attributes = []) {
             $name = Str::startsWith($name, ['[']) && Str::endsWith($name, [']']) ? substr($name, 1, -1) : $name;
 
             if (ob_start()) {
                 $slotIndex = count($this->slots[$this->currentComponent()][$name] ?? ['']) - 1;
-                // $this->slots[$this->currentComponent()][$name] = '';
                 $this->slotStack[$this->currentComponent()][] = [$name, $attributes];
             }
         };
     }
 
-    public static function compileEndArraySlotDirective()
+    /**
+     * Create the endArraySlot View macro closure.
+     *
+     * This handles closing the array slot and storing the content.
+     */
+    public static function makeEndArraySlotMacro(): \Closure
     {
         return function () {
             last($this->componentStack);

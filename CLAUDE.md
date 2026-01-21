@@ -100,15 +100,111 @@ test('button component renders and handles clicks', function () {
 
 ## Architecture
 
+### Modern Service-Oriented Architecture
+
+Mog follows a clean, modular architecture with clear separation of concerns. All services are organized into logical namespaces:
+
+```
+src/
+├── Assets/                          # Asset management (scripts, routes)
+│   ├── AssetRouteProvider.php      # Registers /mog/mog.js route
+│   └── ScriptAssetManager.php      # Script tag generation + manifest handling
+│
+├── Blade/                           # Blade compiler integrations
+│   ├── Compilers/                  # Blade compilers
+│   │   ├── BaseSlotCompiler.php    # Shared compiler logic
+│   │   ├── ArraySlotsCompiler.php  # Array slot syntax compiler
+│   │   └── SelfClosingSlotsCompiler.php # Self-closing slot compiler
+│   ├── Directives/                 # Blade directive implementations
+│   │   └── ArraySlotDirectives.php # Array slot directive logic
+│   └── DirectiveProvider.php       # Central directive registration
+│
+├── Bootstrap/                       # Service provider bootstrapping
+│   ├── CompilerBootstrapper.php    # Blade compiler setup
+│   └── TailwindBootstrapper.php    # TailwindMerge macro setup
+│
+├── Theme/                           # Theme management
+│   ├── ThemeManager.php            # Theme initialization scripts
+│   └── OverlayManager.php          # Overlay rendering state
+│
+├── Utilities/                       # Utility functions
+│   └── AspectRatioParser.php      # Aspect ratio parsing
+│
+├── MogManager.php                   # Core facade/coordinator
+└── MogServiceProvider.php           # Service provider
+```
+
+**Architecture Principles:**
+
+1. **Single Responsibility**: Each class has one clear purpose
+2. **Dependency Injection**: All services use constructor injection
+3. **Stateless Services**: All singletons are stateless (Octane-safe)
+4. **Request-Scoped State**: State stored on Request object, not in services
+5. **Testability**: Services can be unit tested in isolation
+
+### Laravel Octane Compatibility
+
+**Mog is fully compatible with Laravel Octane.** All services follow Octane best practices:
+
+#### State Management
+- **OverlayManager**: Uses static state that is automatically flushed between requests via Octane `\Laravel\Octane\Events\RequestTerminated::class` event
+- **All other services**: Completely stateless - no mutable properties or static variables
+- **No memory leaks**: No accumulating state across requests
+
+#### Safe Patterns Used
+```php
+// ✅ Static state with Octane event listeners (OverlayManager)
+class OverlayManager {
+    private static bool $overlayRendered = false;
+
+    public static function flushState(): void {
+        static::$overlayRendered = false;
+    }
+}
+
+// In MogServiceProvider:
+private function bootOctaneStateFlush(): void {
+    // Flush state after each Octane request
+    if (class_exists(\Laravel\Octane\Events\RequestTerminated::class)) {
+        $this->app['events']->listen(
+            \Laravel\Octane\Events\RequestTerminated::class,
+            fn () => OverlayManager::flushState()
+        );
+    }
+
+    // Also flush after regular requests
+    $this->app->terminating(fn () => OverlayManager::flushState());
+}
+
+// ✅ Stateless utilities (all other services)
+public function parse(int|string|float $ratio): float
+{
+    // Pure function - no state
+}
+```
+
+This pattern uses static state with automatic flushing via Octane's `RequestTerminated` event and Laravel's `terminating()` callback, ensuring compatibility with both Octane and traditional PHP-FPM deployments.
+
+#### Service Registration
+All services are registered as singletons because they are either:
+- Stateless utilities (ThemeManager, AspectRatioParser, compilers)
+- Use request-scoped storage (OverlayManager)
+- Read-only operations (ScriptAssetManager)
+
+This is safe under Octane because:
+1. No mutable instance variables persist between requests
+2. State that must persist per-request is stored on the Request object
+3. All dependencies are resolved once and reused (no stale references)
+
 ### Component System
 
 Mog uses Laravel's anonymous component system with components located in `resources/components/`. Components are registered with the `mog::` prefix (e.g., `<x-mog::button>`).
 
 **Key architectural patterns:**
 
-1. **Array Slots Compiler** (`src/Blade/ArraySlotsCompiler.php`): Custom Blade compiler that transforms array slot syntax `<x-slot:[name]>` into `@arraySlot()` directives, enabling dynamic slot names for components like accordions and dropdowns.
+1. **Array Slots Compiler** (`src/Blade/Compilers/ArraySlotsCompiler.php`): Custom Blade compiler that transforms array slot syntax `<x-slot:[name]>` into `@arraySlot()` directives, enabling dynamic slot names for components like accordions and dropdowns.
 
-2. **Self-Closing Slots** (`src/Blade/SelfClosingSlotsCompiler.php`): Handles self-closing slot syntax for more concise component definitions.
+2. **Self-Closing Slots** (`src/Blade/Compilers/SelfClosingSlotsCompiler.php`): Handles self-closing slot syntax for more concise component definitions.
 
 3. **TailwindMerge Integration**: All components use TailwindMerge PHP for intelligent class merging. Access via:
    - Blade directive: `@cn('class1', 'class2')`
@@ -164,8 +260,19 @@ Components follow these patterns:
 
 ## Important Files
 
-- `src/MogManager.php`: Core manager class with utility methods (theme, overlays, cn, script injection)
-- `src/MogServiceProvider.php`: Registers all components, directives, and integrations
+### Core Files
+- `src/MogManager.php`: Core facade/coordinator (delegates to specialized services)
+- `src/MogServiceProvider.php`: Service provider (registers all services and bootstrappers)
 - `resources/js/mog.js`: Global JavaScript API and Alpine.js integration
 - `scripts/build.js`: esbuild configuration with alias resolution
 - `dist/manifest.json`: Cache-busting hashes for JavaScript assets
+
+### Service Classes
+- `src/Theme/OverlayManager.php`: Request-scoped overlay state management (Octane-safe)
+- `src/Theme/ThemeManager.php`: Theme initialization JavaScript/CSS generation
+- `src/Assets/ScriptAssetManager.php`: Script tag generation with cache-busting
+- `src/Assets/AssetRouteProvider.php`: Registers `/mog/mog.js` route
+- `src/Utilities/AspectRatioParser.php`: Aspect ratio string parsing utility
+- `src/Blade/DirectiveProvider.php`: Central Blade directive registration
+- `src/Bootstrap/CompilerBootstrapper.php`: Blade compiler bootstrap
+- `src/Bootstrap/TailwindBootstrapper.php`: TailwindMerge macro bootstrap
