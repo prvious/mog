@@ -1,10 +1,8 @@
 <?php
 
-use Mog\MogManager;
-
 describe('parseAspectRatio', function (): void {
     it('parses string ratio formats correctly', function ($input, $expected): void {
-        $ratio = app(MogManager::class)->parseAspectRatio($input);
+        $ratio = app('mog')->parseAspectRatio($input);
 
         expect($ratio)->toBe($expected);
     })->with([
@@ -17,7 +15,7 @@ describe('parseAspectRatio', function (): void {
     ]);
 
     it('parses numeric string values correctly', function ($input, $expected): void {
-        $ratio = app(MogManager::class)->parseAspectRatio($input);
+        $ratio = app('mog')->parseAspectRatio($input);
 
         expect($ratio)->toBe($expected);
     })->with([
@@ -29,7 +27,7 @@ describe('parseAspectRatio', function (): void {
     ]);
 
     it('handles numeric values correctly', function ($input, $expected): void {
-        $ratio = app(MogManager::class)->parseAspectRatio($input);
+        $ratio = app('mog')->parseAspectRatio($input);
 
         expect($ratio)->toBe($expected);
     })->with([
@@ -42,7 +40,7 @@ describe('parseAspectRatio', function (): void {
     ]);
 
     it('returns fallback for invalid string formats', function ($input): void {
-        $ratio = app(MogManager::class)->parseAspectRatio($input);
+        $ratio = app('mog')->parseAspectRatio($input);
 
         expect($ratio)->toBe(1.0);
     })->with([
@@ -56,7 +54,7 @@ describe('parseAspectRatio', function (): void {
     ]);
 
     it('handles edge cases', function ($input, $expected): void {
-        $ratio = app(MogManager::class)->parseAspectRatio($input);
+        $ratio = app('mog')->parseAspectRatio($input);
 
         expect($ratio)->toBe($expected);
     })->with([
@@ -67,7 +65,7 @@ describe('parseAspectRatio', function (): void {
     ]);
 
     it('handles zero and negative values appropriately', function ($input, $expected): void {
-        $ratio = app(MogManager::class)->parseAspectRatio($input);
+        $ratio = app('mog')->parseAspectRatio($input);
 
         expect($ratio)->toBe($expected);
     })->with([
@@ -81,7 +79,7 @@ describe('parseAspectRatio', function (): void {
 
 describe('script', function (): void {
     it('returns a script tag with correct attributes', function (): void {
-        $script = app(MogManager::class)->script();
+        $script = app('mog')->script();
 
         expect($script)->toContain('<script');
         expect($script)->toContain('src="/mog/mog.js?id=');
@@ -91,14 +89,14 @@ describe('script', function (): void {
     });
 
     it('includes version from manifest.json', function (): void {
-        $script = app(MogManager::class)->script();
+        $script = app('mog')->script();
 
         // The manifest.json should have a version/hash
         expect($script)->toMatch('/src="\/mog\/mog\.js\?id=[^"]+"/');
     });
 
     it('generates valid HTML script tag', function (): void {
-        $script = app(MogManager::class)->script();
+        $script = app('mog')->script();
 
         // Should be a complete script tag with all required parts
         expect($script)->toStartWith('<script');

@@ -1,5 +1,20 @@
 <?php
 
+// Define test routes for browser tests
+
+use Illuminate\Routing\Router;
+
+use function Orchestra\Testbench\Pest\defineRoutes;
+
+defineRoutes(function (Router $router) {
+    $router->get('/test/button', fn () => view('mog-test::button'));
+    $router->get('/test/theme', fn () => view('mog-test::theme'));
+    $router->get('/test/alpine', fn () => view('mog-test::alpine'));
+    $router->get('/test/input', fn () => view('mog-test::input'));
+    $router->get('/test/select-input-group', fn () => view('mog-test::select-input-group'));
+    $router->get('/test/checkbox-radio-switch', fn () => view('mog-test::checkbox-radio-switch'));
+});
+
 describe('Button Variants', function (): void {
     test('default variant renders correctly', function (): void {
         $page = visit('/test/button');
@@ -188,9 +203,6 @@ describe('Button States', function (): void {
         $page->assertVisible('[dusk="loading-button"]')
             ->click('[dusk="loading-button"]');
 
-        // Give Alpine time to update
-        usleep(100000); // 100ms
-
         // Verify loading attribute is set
         $page->assertScript('document.querySelector("[dusk=loading-button]").hasAttribute("data-loading")', true);
 
@@ -232,14 +244,12 @@ describe('Button Interactions', function (): void {
 
         // Click to enable loading
         $page->click('[dusk="loading-button"]');
-        usleep(100000); // Wait for Alpine
 
         // Verify loading is active
         $page->assertScript('document.querySelector("[dusk=loading-button]").hasAttribute("data-loading")', true);
 
         // Click again to disable loading
         $page->click('[dusk="loading-button"]');
-        usleep(100000);
 
         // Verify loading is no longer active
         $page->assertScript('document.querySelector("[dusk=loading-button]").hasAttribute("data-loading")', false);

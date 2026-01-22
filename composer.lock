@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d4275632b23e671fadc3e83d7403ae96",
+    "content-hash": "b9d729a311ad1cb0d26ddfec759727bf",
     "packages": [
         {
             "name": "blade-ui-kit/blade-icons",
@@ -8657,6 +8657,62 @@
             "time": "2025-11-24T04:41:15+00:00"
         },
         {
+            "name": "orchestra/pest-plugin-testbench",
+            "version": "4.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/orchestral/pest-plugin-testbench.git",
+                "reference": "0fc662635ef1c1df1b0fef63b590c4169ff94b70"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/orchestral/pest-plugin-testbench/zipball/0fc662635ef1c1df1b0fef63b590c4169ff94b70",
+                "reference": "0fc662635ef1c1df1b0fef63b590c4169ff94b70",
+                "shasum": ""
+            },
+            "require": {
+                "orchestra/testbench": "^9.16.0|^10.9.0",
+                "pestphp/pest": "^4.0.0",
+                "pestphp/pest-plugin-laravel": "^4.0.0",
+                "php": "^8.3"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.24",
+                "orchestra/testbench-dusk": "^9.18.0|^10.6.0",
+                "phpstan/phpstan": "^2.1.12",
+                "rector/rector": "^2.0.11",
+                "symfony/var-dumper": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Autoload.php"
+                ],
+                "psr-4": {
+                    "Orchestra\\Testbench\\Pest\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Pest plugin for Testbench",
+            "keywords": [
+                "framework",
+                "pest",
+                "php",
+                "plugin",
+                "test",
+                "testing",
+                "unit"
+            ],
+            "support": {
+                "issues": "https://github.com/orchestral/pest-plugin-testbench/issues",
+                "source": "https://github.com/orchestral/pest-plugin-testbench/tree/4.x"
+            },
+            "time": "2025-12-30T09:52:47+00:00"
+        },
+        {
             "name": "orchestra/sidekick",
             "version": "v1.2.20",
             "source": {
@@ -9269,6 +9325,80 @@
                 }
             ],
             "time": "2026-01-11T20:32:34+00:00"
+        },
+        {
+            "name": "pestphp/pest-plugin-laravel",
+            "version": "v4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pestphp/pest-plugin-laravel.git",
+                "reference": "e12a07046b826a40b1c8632fd7b80d6b8d7b628e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pestphp/pest-plugin-laravel/zipball/e12a07046b826a40b1c8632fd7b80d6b8d7b628e",
+                "reference": "e12a07046b826a40b1c8632fd7b80d6b8d7b628e",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^11.45.2|^12.25.0",
+                "pestphp/pest": "^4.0.0",
+                "php": "^8.3.0"
+            },
+            "require-dev": {
+                "laravel/dusk": "^8.3.3",
+                "orchestra/testbench": "^9.13.0|^10.5.0",
+                "pestphp/pest-dev-tools": "^4.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "pest": {
+                    "plugins": [
+                        "Pest\\Laravel\\Plugin"
+                    ]
+                },
+                "laravel": {
+                    "providers": [
+                        "Pest\\Laravel\\PestServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Autoload.php"
+                ],
+                "psr-4": {
+                    "Pest\\Laravel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The Pest Laravel Plugin",
+            "keywords": [
+                "framework",
+                "laravel",
+                "pest",
+                "php",
+                "test",
+                "testing",
+                "unit"
+            ],
+            "support": {
+                "source": "https://github.com/pestphp/pest-plugin-laravel/tree/v4.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.com/paypalme/enunomaduro",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/nunomaduro",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-08-20T12:46:37+00:00"
         },
         {
             "name": "pestphp/pest-plugin-mutate",
@@ -11679,7 +11809,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "orchestra/pest-plugin-testbench": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

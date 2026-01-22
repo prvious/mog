@@ -22,7 +22,6 @@ describe('Checkbox States', function (): void {
         $page = visit('/test/checkbox-radio-switch');
 
         $page->click('button[dusk="checkbox-unchecked"]');
-        usleep(100000);
 
         $page->assertScript('document.querySelector("button[dusk=checkbox-unchecked]").dataset.state', 'checked');
     });
@@ -42,7 +41,6 @@ describe('Radio Group', function (): void {
         $page = visit('/test/checkbox-radio-switch');
 
         $page->click('[dusk="radio-option-2"]');
-        usleep(100000);
 
         $page->assertScript('document.querySelector("[dusk=radio-option-2]").dataset.state', 'checked');
         $page->assertScript('document.querySelector("[dusk=radio-option-1]").dataset.state', 'unchecked');
@@ -71,7 +69,6 @@ describe('Switch Component', function (): void {
         $page = visit('/test/checkbox-radio-switch');
 
         $page->click('button[dusk="switch-off"]');
-        usleep(100000);
 
         $page->assertScript('document.querySelector("button[dusk=switch-off]").dataset.state', 'checked');
     });
@@ -100,7 +97,6 @@ describe('Toggle Component', function (): void {
         $page = visit('/test/checkbox-radio-switch');
 
         $page->click('[dusk="toggle-default"]');
-        usleep(100000);
 
         $page->assertScript('document.querySelector("[dusk=toggle-default]").dataset.state', 'on');
     });

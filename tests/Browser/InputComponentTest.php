@@ -192,8 +192,6 @@ describe('Input Interactions', function (): void {
         $page->assertVisible('[dusk="interactive-type"]');
         $page->type('[dusk="interactive-type"]', 'Hello World');
 
-        usleep(100000); // Wait for input
-
         $page->assertScript('document.querySelector("[dusk=interactive-type]").value', 'Hello World');
     });
 
@@ -246,8 +244,6 @@ describe('Textarea Component', function (): void {
 
         $page->assertVisible('[dusk="textarea-default"]');
         $page->type('[dusk="textarea-default"]', "Line 1\nLine 2\nLine 3");
-
-        usleep(100000);
 
         $page->assertScript('document.querySelector("[dusk=textarea-default]").value.includes("Line 1")', true);
     });

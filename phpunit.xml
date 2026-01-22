@@ -1,35 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
-         backupGlobals="false"
-         beStrictAboutTestsThatDoNotTestAnything="true"
-         beStrictAboutOutputDuringTests="true"
-         bootstrap="vendor/autoload.php"
-         colors="true"
-         failOnRisky="true"
-         failOnWarning="false"
-         processIsolation="false"
-         stopOnError="false"
-         stopOnFailure="false"
-         backupStaticProperties="false"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+    backupGlobals="false"
+    beStrictAboutTestsThatDoNotTestAnything="true"
+    beStrictAboutOutputDuringTests="true"
+    bootstrap="vendor/autoload.php"
+    colors="true"
+    failOnRisky="true"
+    failOnWarning="false"
+    processIsolation="false"
+    stopOnError="false"
+    stopOnFailure="false"
+    backupStaticProperties="false"
 >
     <testsuites>
         <testsuite name="default">
             <directory suffix=".php">./tests</directory>
         </testsuite>
     </testsuites>
-    <source>
-        <include>
-            <directory suffix=".php">./src</directory>
-        </include>
-    </source>
     <php>
-        <env name="APP_ENV" value="testing"/>
-        <env name="APP_DEBUG" value="true"/>
-        <env name="CACHE_STORE" value="array"/>
-        <env name="SESSION_DRIVER" value="array"/>
-        <env name="QUEUE_CONNECTION" value="sync"/>
-        <env name="BROWSER_HEADLESS" value="true"/>
-        <env name="BROWSER_DEBUG" value="false"/>
+        <env name="APP_ENV" value="testing" />
+        <env name="APP_DEBUG" value="true" />
+        <env name="CACHE_STORE" value="array" />
+        <env name="SESSION_DRIVER" value="array" />
+        <env name="QUEUE_CONNECTION" value="sync" />
+        <env name="BROWSER_HEADLESS" value="true" />
+        <env name="BROWSER_DEBUG" value="false" />
     </php>
 </phpunit>
