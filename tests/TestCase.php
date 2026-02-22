@@ -16,6 +16,16 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     use InteractsWithViews, LazilyRefreshDatabase, WithPest, WithWorkbench;
 
     /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     */
+    protected function defineEnvironment($app): void
+    {
+        $app['config']->set('app.key', 'base64:'.base64_encode(random_bytes(32)));
+    }
+
+    /**
      * Get package providers.
      *
      * @param  \Illuminate\Foundation\Application  $app
@@ -23,12 +33,15 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function getPackageProviders($app): array
     {
-        return [
-            BladeIconsServiceProvider::class,
-            BladeLucideIconsServiceProvider::class,
-            MogServiceProvider::class,
-            LivewireServiceProvider::class,
-        ];
+        return array_merge(
+            [
+                BladeIconsServiceProvider::class,
+                BladeLucideIconsServiceProvider::class,
+                MogServiceProvider::class,
+                LivewireServiceProvider::class,
+            ],
+            $this->getPackageProvidersUsingWorkbench($app) ?? [],
+        );
     }
 
     /**
