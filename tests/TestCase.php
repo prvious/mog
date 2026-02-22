@@ -23,12 +23,15 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function getPackageProviders($app): array
     {
-        return [
-            BladeIconsServiceProvider::class,
-            BladeLucideIconsServiceProvider::class,
-            MogServiceProvider::class,
-            LivewireServiceProvider::class,
-        ];
+        return array_merge(
+            [
+                BladeIconsServiceProvider::class,
+                BladeLucideIconsServiceProvider::class,
+                MogServiceProvider::class,
+                LivewireServiceProvider::class,
+            ],
+            $this->getPackageProvidersUsingWorkbench($app) ?? [],
+        );
     }
 
     /**

@@ -7,3 +7,5 @@
 /tests/assets
 /workbench/public/build
 /workbench/public/hot
+/.playwright-mcp/
+node_modules

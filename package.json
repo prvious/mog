@@ -7,9 +7,7 @@
         "format": "prettier --write resources .github/workflows",
         "format:check": "prettier --check resources .github/workflows",
         "build": "node ./scripts/build.js",
-        "watch": "node ./scripts/build.js --watch",
-        "build:test": "tailwindcss -i tests/css/app.css -o tests/assets/app.css",
-        "watch:test": "tailwindcss -i tests/css/app.css -o tests/assets/app.css --watch"
+        "watch": "node ./scripts/build.js --watch"
     },
     "devDependencies": {
         "@floating-ui/dom": "^1.7.4",
