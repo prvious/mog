@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
+        "dev": "bunx concurrently -n pkg,workbench -c blue,green \"node ./scripts/build.js --watch\" \"pnpm --filter @mog/workbench dev\"",
         "format": "prettier --write resources .github/workflows",
         "format:check": "prettier --check resources .github/workflows",
         "build": "node ./scripts/build.js",

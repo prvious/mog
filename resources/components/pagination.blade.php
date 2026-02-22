@@ -17,7 +17,7 @@
                     aria-label="Go to previous page"
                     variant="ghost"
                     disabled>
-                    @svg('lucide:chevron-left')
+                    @svg('lucide-chevron-left')
                     <span class="hidden sm:block">Prvious</span>
                 </x-mog::button>
             @else
@@ -34,7 +34,7 @@
                     wire:click="{{ $previousPage }}"
                     aria-label="Go to previous page"
                     variant="ghost">
-                    @svg('lucide:chevron-left')
+                    @svg('lucide-chevron-left')
                     <span class="hidden sm:block">Prvious</span>
                 </x-mog::button>
             @endif
@@ -55,7 +55,7 @@
                             class="flex size-9 items-center justify-center"
                             variant="ghost"
                             disabled>
-                            @svg('lucide:more-horizontal')
+                            @svg('lucide-more-horizontal')
                         </x-mog::button>
                     @else
                         <x-mog::button
@@ -87,7 +87,7 @@
                     variant="ghost"
                     disabled>
                     <span class="hidden sm:block">Next</span>
-                    @svg('lucide:chevron-right')
+                    @svg('lucide-chevron-right')
                 </x-mog::button>
             @else
                 @php
@@ -104,7 +104,7 @@
                     aria-label="Go to next page"
                     variant="ghost">
                     <span class="hidden sm:block">Next</span>
-                    @svg('lucide:chevron-right')
+                    @svg('lucide-chevron-right')
                 </x-mog::button>
             @endif
         </li>
