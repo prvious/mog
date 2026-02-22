@@ -33,7 +33,8 @@
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "orchestra/testbench": "^10.9",
         "pestphp/pest-plugin-browser": "^4.0",
-        "orchestra/pest-plugin-testbench": "^4.x-dev"
+        "orchestra/pest-plugin-testbench": "^4.x-dev",
+        "laravel/boost": "^2"
     },
     "autoload": {
         "psr-4": {

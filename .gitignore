@@ -5,3 +5,5 @@
 /tests/Browser/screenshots
 /tests/Browser/snapshots/diffs
 /tests/assets
+/workbench/public/build
+/workbench/public/hot

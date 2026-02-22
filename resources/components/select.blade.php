@@ -50,7 +50,7 @@
             x-text="placeholder"
             class="pointer-none"></span>
 
-        {{ svg('lucide:chevron-up', 'size-4 opacity-50 transition-transform', ['data-slot' => 'select-icon', 'x-bind:class' => "{ 'rotate-180': !open }"]) }}
+        {{ svg('lucide-chevron-up', 'size-4 opacity-50 transition-transform', ['data-slot' => 'select-icon', 'x-bind:class' => "{ 'rotate-180': !open }"]) }}
     </button>
 
     <div
